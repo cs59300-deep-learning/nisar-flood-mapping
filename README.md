@@ -1,4 +1,4 @@
-# FloodTransfer: Cross-Satellite Flood Mapping with NISAR
+# NISAR Flood Mapping: Sentinel-1 to NISAR Deep Learning Transfer
 
 ## Overview
 
