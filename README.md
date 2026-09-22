@@ -2,7 +2,7 @@
 
 ## Overview
 
-**FloodTransfer** investigates whether deep-learning flood segmentation
+**NISAR Flood Mapping** investigates whether deep-learning flood segmentation
 models trained on **Sentinel-1 SAR imagery** can transfer effectively to
 the new **NISAR L-band SAR imagery**.
 
