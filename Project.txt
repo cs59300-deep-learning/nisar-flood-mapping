@@ -2,9 +2,14 @@ Deep Learning Project ->
 
 
 Project Title -
+NISAR Flood Mapping: Sentinel-1 to NISAR Deep Learning Transfer
+
+Course -
+CS 59300-02, Application of Deep Learning
+Instructor: Dr. Zesheng Chen
 
 Group Members -
-1. Yashada Ajit Tembe
-
-
-4. Pushan Verma 
+1. Varun Teja Chundru
+2. Nidhi Musale
+3. Yashada Ajit Tembe
+4. Pushan Verma

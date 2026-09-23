@@ -42,8 +42,10 @@ The project follows three main phases:
 
 ### 1. Pretraining
 
-Train a **U-Net** flood segmentation model using the **Sen1Floods11**
-Sentinel-1 dataset.
+Train a **Vision Transformer** flood segmentation model (SegFormer with a
+**MiT-B4** encoder) using the **Sen1Floods11** Sentinel-1 dataset.
+Transformer-based models currently lead this benchmark (DeepSARFlood,
+2025); a U-Net is retained only as a reference baseline for comparison.
 
 ### 2. Zero-Shot Evaluation
 
@@ -80,9 +82,10 @@ and NISAR as part of the analysis.
 -   **Study region:** Solimões--Negro confluence / Central Amazon
     floodplain
 
-The project has already established a working NISAR data pipeline,
-including data download, HDF5 reading, dual-polarization processing, and
-initial water/land separability analysis.
+A working NISAR data pipeline has been prototyped — data download, HDF5
+reading, dual-polarization processing, and initial water/land
+separability analysis (GCOV scene 023_068_D_090, 18 Jun 2026). This code
+is being cleaned up and committed to this repository.
 
 ## Ground Truth
 
@@ -114,7 +117,8 @@ The main outputs are:
 
 -   A benchmark of Sentinel-1 → NISAR flood-model transfer
 -   A labeled NISAR flood dataset for future research
--   Complete training and evaluation code
+-   Complete training and evaluation code (data download, HDF5 reading,
+    dual-polarization processing, training, and evaluation)
 -   An interactive flood-mapping demo
 -   Research report and presentation
 
