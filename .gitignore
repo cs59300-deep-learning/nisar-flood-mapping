@@ -1,0 +1,15 @@
+data/
+datasets/
+*.h5
+*.hdf5
+*.tif
+*.tiff
+*.geotiff
+*.nc
+models/
+checkpoints/
+*.pt
+*.pth
+runs/
+outputs/
+results/
