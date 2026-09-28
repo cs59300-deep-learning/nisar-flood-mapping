@@ -1,0 +1,16 @@
+# Heavy data is NOT tracked. Manifests, small CSVs and READMEs are.
+# See data/README.md for how to fetch each directory's contents.
+raw/*
+chips/*
+reference/*
+sen1floods11/*
+*.h5
+*.tif
+*.tiff
+*.zip
+*.nc
+
+!.gitkeep
+!README.md
+!*.csv
+!*.md

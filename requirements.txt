@@ -1,0 +1,42 @@
+# CS 59300 - NISAR Flood Mapping
+# Python 3.11. Install with: pip install -r requirements.txt
+# GPU training was scoped for Kaggle (30 GPU-h/week) - see issue #19.
+
+# --- Arrays, tables, plotting ---
+numpy>=1.26,<2.1
+pandas>=2.1
+matplotlib>=3.8
+scipy>=1.11
+scikit-learn>=1.4
+
+# --- Geospatial / SAR I/O ---
+h5py>=3.10             # NISAR L2 GCOV HDF5 (issue #6)
+rasterio>=1.3          # GeoTIFF read/write, windowed reads, reprojection (#9, #33)
+pyproj>=3.6
+shapely>=2.0
+geopandas>=0.14
+rioxarray>=0.15
+
+# --- Deep learning ---
+torch>=2.2
+torchvision>=0.17
+segmentation-models-pytorch>=0.3.3   # U-Net decoder for both arms (#19, #20)
+timm>=0.9.16                         # supplies the MaxViT encoder (#20)
+albumentations>=1.4
+
+# --- Ground truth sources ---
+requests>=2.31
+zeep>=4.2              # ANA HidroWeb SOAP endpoint for the Manaus gauge (#12)
+
+# --- Demo application ---
+streamlit>=1.32        # (#32)
+folium>=0.15
+streamlit-folium>=0.19
+
+# --- Config, CLI, utilities ---
+pyyaml>=6.0
+tqdm>=4.66
+
+# --- Development ---
+pytest>=8.0
+ruff>=0.3
