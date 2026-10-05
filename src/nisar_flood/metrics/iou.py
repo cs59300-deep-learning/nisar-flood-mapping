@@ -13,6 +13,10 @@ import numpy as np
 
 from ..datasets.transforms import IGNORE_INDEX   # 255: what the dataloader turns the -1 "no data" label into
 
+# The number to report as "the" IoU. Sen1Floods11 (Bonafilia et al., CVPRW 2020) reports the mean of
+# per-chip water IoU, with every chip weighted equally. The pooled `iou_water` is a secondary figure.
+HEADLINE_METRIC = "iou_water_per_chip_mean"
+
 
 def _div(a, b):
     return float(a) / float(b) if b else float("nan")

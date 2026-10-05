@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from nisar_flood.datasets.transforms import IGNORE_INDEX
-from nisar_flood.metrics.iou import IoUMeter
+from nisar_flood.metrics.iou import HEADLINE_METRIC, IoUMeter
 
 
 def score(pred, target):
@@ -77,3 +77,7 @@ def test_no_water_anywhere_gives_nan_not_zero():
     assert math.isnan(r["iou_water"])
     assert r["iou_not_water"] == 1.0
     assert r["n_chips_scored"] == 0
+
+def test_headline_metric_is_the_per_chip_mean_and_is_reported():
+    assert HEADLINE_METRIC == "iou_water_per_chip_mean"
+    assert HEADLINE_METRIC in score([1, 0], [1, 0])   # a typo in the constant would fail here
