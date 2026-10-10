@@ -1,0 +1,12 @@
+# Paths for large/external datasets.
+# Replace these example paths with locations available in your environment.
+# This file documents paths; callers must load and resolve them explicitly.
+
+merit_hand:
+  path: /path/to/merit_hand.tif
+
+nisar:
+  data_root: /path/to/nisar-flood/raw_granules
+
+outputs:
+  hand: outputs/groundtruth/hand
