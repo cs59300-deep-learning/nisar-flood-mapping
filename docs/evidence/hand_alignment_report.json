@@ -1,0 +1,92 @@
+{
+  "ticket": 13,
+  "purpose": "HAND raster processing and NISAR grid compatibility",
+  "nisar_reference_grid": {
+    "crs": "EPSG:32720",
+    "resolution_m": 20.0,
+    "width": 16740,
+    "height": 16344,
+    "origin_x": 534960.0,
+    "origin_y": 9822240.0
+  },
+  "rasters": {
+    "source_hand": {
+      "path": "/content/merit_hand/merit_hand_mosaic.tif",
+      "status": "INSPECTED",
+      "crs": "EPSG:4326",
+      "width": 12000,
+      "height": 6000,
+      "pixel_size": [
+        0.0008333333333333334,
+        -0.0008333333333333334
+      ],
+      "bounds": [
+        -65.00041666666667,
+        -5.000416666666666,
+        -55.000416666666666,
+        -0.00041666666666590873
+      ],
+      "nodata": -9999.0,
+      "valid_pixels": 72000000,
+      "total_pixels": 72000000,
+      "valid_pixel_percent": 100.0,
+      "crs_matches_nisar": false,
+      "resolution_matches_nisar": false,
+      "x_origin_on_nisar_grid": false,
+      "y_origin_on_nisar_grid": false,
+      "dimensions_equal_full_nisar_grid": false
+    },
+    "aoi_clipped_hand": {
+      "path": "/content/merit_hand/merit_hand_aoi.tif",
+      "status": "INSPECTED",
+      "crs": "EPSG:4326",
+      "width": 3600,
+      "height": 3600,
+      "pixel_size": [
+        0.0008333333333333334,
+        -0.0008333333333333334
+      ],
+      "bounds": [
+        -62.70041666666667,
+        -4.5995833333333325,
+        -59.70041666666667,
+        -1.5995833333333327
+      ],
+      "nodata": -9999.0,
+      "valid_pixels": 12960000,
+      "total_pixels": 12960000,
+      "valid_pixel_percent": 100.0,
+      "crs_matches_nisar": false,
+      "resolution_matches_nisar": false,
+      "x_origin_on_nisar_grid": false,
+      "y_origin_on_nisar_grid": false,
+      "dimensions_equal_full_nisar_grid": false
+    },
+    "aligned_hand": {
+      "path": "/content/merit_hand/merit_hand_aligned.tif",
+      "status": "INSPECTED",
+      "crs": "EPSG:32720",
+      "width": 16740,
+      "height": 16344,
+      "pixel_size": [
+        20.0,
+        -20.0
+      ],
+      "bounds": [
+        534960.0,
+        9495360.0,
+        869760.0,
+        9822240.0
+      ],
+      "nodata": -9999.0,
+      "valid_pixels": 271176984,
+      "total_pixels": 273598560,
+      "valid_pixel_percent": 99.115,
+      "crs_matches_nisar": true,
+      "resolution_matches_nisar": true,
+      "x_origin_on_nisar_grid": true,
+      "y_origin_on_nisar_grid": true,
+      "dimensions_equal_full_nisar_grid": true
+    }
+  }
+}
