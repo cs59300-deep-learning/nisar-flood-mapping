@@ -1,50 +1,5 @@
-# HAND Raster Inspection Report
-
-Generated from the rasters present in the Colab environment.
-Reference: NISAR Frequency-A, EPSG:32720, 20 m pixel spacing.
-A cropped AOI is not expected to have the full NISAR grid dimensions.
-
-## source_hand
-- File: /content/merit_hand/merit_hand_mosaic.tif
-- Status: INSPECTED
-- crs: EPSG:4326
-- width: 12000
-- height: 6000
-- pixel_size: [0.0008333333333333334, -0.0008333333333333334]
-- bounds: [-65.00041666666667, -5.000416666666666, -55.000416666666666, -0.00041666666666590873]
-- valid_pixel_percent: 100.0
-- crs_matches_nisar: False
-- resolution_matches_nisar: False
-- x_origin_on_nisar_grid: False
-- y_origin_on_nisar_grid: False
-- dimensions_equal_full_nisar_grid: False
-
-## aoi_clipped_hand
-- File: /content/merit_hand/merit_hand_aoi.tif
-- Status: INSPECTED
-- crs: EPSG:4326
-- width: 3600
-- height: 3600
-- pixel_size: [0.0008333333333333334, -0.0008333333333333334]
-- bounds: [-62.70041666666667, -4.5995833333333325, -59.70041666666667, -1.5995833333333327]
-- valid_pixel_percent: 100.0
-- crs_matches_nisar: False
-- resolution_matches_nisar: False
-- x_origin_on_nisar_grid: False
-- y_origin_on_nisar_grid: False
-- dimensions_equal_full_nisar_grid: False
-
-## aligned_hand
-- File: /content/merit_hand/merit_hand_aligned.tif
-- Status: INSPECTED
-- crs: EPSG:32720
-- width: 16740
-- height: 16344
-- pixel_size: [20.0, -20.0]
-- bounds: [534960.0, 9495360.0, 869760.0, 9822240.0]
-- valid_pixel_percent: 99.115
-- crs_matches_nisar: True
-- resolution_matches_nisar: True
-- x_origin_on_nisar_grid: True
-- y_origin_on_nisar_grid: True
-- dimensions_equal_full_nisar_grid: True
+HAND alignment report (Ticket #13)
+NISAR grid: EPSG:32720, 20.0 m, 16740 x 16344, origin (534960.0, 9822240.0)
+Aligned HAND: valid 273,598,560 / 273,598,560 (100.000%), range 0.00-150.97 m
+CRS equal: True | transform pixel-exact: True | shape equal: True
+Clip bounds (lon/lat, footprint + 0.02 deg): (-62.7057, -4.5855, -59.6485, -1.5855)

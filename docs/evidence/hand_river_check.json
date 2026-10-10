@@ -1,0 +1,25 @@
+{
+  "baseline_all_land": {
+    "n": 2735316,
+    "median_m": 0.840615451335907,
+    "pct_le_2m": 74.79673280893323
+  },
+  "classes": {
+    "upland_ge_1000_km2": {
+      "reaches": 1525,
+      "points": 22524,
+      "median_m": 0.04892278462648392,
+      "p90_m": 1.3324397802352905,
+      "pct_le_2m": 94.1973006570769
+    },
+    "upland_ge_10000_km2": {
+      "reaches": 596,
+      "points": 9947,
+      "median_m": 0.0,
+      "p90_m": 0.4602377116680145,
+      "pct_le_2m": 99.86930732884286
+    }
+  },
+  "consistent_with_river_network": false,
+  "tolerance_m": 400.0
+}

@@ -75,3 +75,15 @@ The aligned raster matches the NISAR reference grid metadata, and the
 NISAR geographic bounding box lies within the clipped HAND bounding
 box. This confirms bounding-box coverage, not exact AOI polygon
 coverage or river-channel accuracy.
+
+
+## Final status (supersedes the earlier coverage figures)
+The earlier aligned raster was built from a tightly clipped AOI and had 99.115% valid pixels
+(nodata strip on the east edge). It was rebuilt from a footprint-plus-margin clip:
+**100.000% valid**.
+
+| Acceptance criterion | Evidence |
+|---|---|
+| HAND clipped and reprojected to the NISAR grid | `hand_alignment_report.json` (CRS, transform, shape checks all pass) |
+| DEM choice and canopy correction documented | `docs/hand_methods.md` |
+| Visual check against known river channels | `hand_hydrorivers_overlay.png`, `hand_manaus_zoom.png`, `hand_river_check.json` |
