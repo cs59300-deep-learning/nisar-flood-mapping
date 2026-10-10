@@ -18,8 +18,7 @@ substantial elevation errors.
 
 The project therefore uses the precomputed MERIT Hydro HAND product
 rather than deriving HAND directly from an uncorrected surface-elevation
-DEM. The source product and its documented processing should be checked
-before describing it as fully canopy-corrected.
+DEM. See `docs/hand_methods.md`: the canopy (tree-height bias) correction is inherited from MERIT DEM and was not computed in this project.
 
 ### Source
 
