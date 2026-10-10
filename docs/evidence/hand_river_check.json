@@ -21,5 +21,55 @@
     }
   },
   "consistent_with_river_network": false,
-  "tolerance_m": 400.0
+  "tolerance_m": 400.0,
+  "distance_profile": {
+    "upland_threshold_km2": 1000,
+    "bins": [
+      {
+        "distance_km": "0-0.5",
+        "n": 100213,
+        "median_m": 1.7846702337265015,
+        "p90_m": 10.161030769348145
+      },
+      {
+        "distance_km": "0.5-1",
+        "n": 75450,
+        "median_m": 3.0274901390075684,
+        "p90_m": 14.376798629760742
+      },
+      {
+        "distance_km": "1-2",
+        "n": 180833,
+        "median_m": 4.154788017272949,
+        "p90_m": 15.221968650817871
+      },
+      {
+        "distance_km": "2-5",
+        "n": 461581,
+        "median_m": 4.407916069030762,
+        "p90_m": 14.922138214111328
+      },
+      {
+        "distance_km": "5-10",
+        "n": 666061,
+        "median_m": 3.80985164642334,
+        "p90_m": 15.638643264770508
+      },
+      {
+        "distance_km": "10-20",
+        "n": 892949,
+        "median_m": 3.507657051086426,
+        "p90_m": 17.72495460510254
+      },
+      {
+        "distance_km": "20-inf",
+        "n": 358229,
+        "median_m": 5.547195911407471,
+        "p90_m": 29.610431671142578
+      }
+    ],
+    "spearman_rho": 0.09345875480864657,
+    "median_rises_with_distance": false,
+    "rises_with_distance": false
+  }
 }

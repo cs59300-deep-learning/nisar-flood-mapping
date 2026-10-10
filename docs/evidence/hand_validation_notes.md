@@ -87,3 +87,7 @@ The earlier aligned raster was built from a tightly clipped AOI and had 99.115% 
 | HAND clipped and reprojected to the NISAR grid | `hand_alignment_report.json` (CRS, transform, shape checks all pass) |
 | DEM choice and canopy correction documented | `docs/hand_methods.md` |
 | Visual check against known river channels | `hand_hydrorivers_overlay.png`, `hand_manaus_zoom.png`, `hand_river_check.json` |
+
+
+## River check addendum
+Along river reaches with upstream area >= 1000 km2 the local-minimum HAND has median 0.05 m (94% of points <= 2 m). HAND rises with distance from the rivers (Spearman rho = 0.09; median per distance bin in `hand_river_check.json`): **False**. A simple ratio flag against the all-land baseline was inconclusive because 75% of this lowland AOI already has local-minimum HAND <= 2 m.
