@@ -27,7 +27,7 @@
 - Valid pixels: 273,598,560 / 273,598,560 (100.000%); HAND range 0.0-151.0 m.
 - River check vs HydroRIVERS (v10, South America): see `docs/evidence/hand_hydrorivers_overlay.png`,
   `docs/evidence/hand_manaus_zoom.png`, `docs/evidence/hand_river_check.json`.
-  Along river reaches with upstream area >= 1000 km2 the local-minimum HAND has median 0.05 m (94% of points <= 2 m). HAND rises with distance from the rivers (Spearman rho = 0.09; median per distance bin in `hand_river_check.json`): **False**. A simple ratio flag against the all-land baseline was inconclusive because 75% of this lowland AOI already has local-minimum HAND <= 2 m.
+  Distance-to-river check (HAND on a 200 m block-averaged grid vs distance to HydroRIVERS reaches): along major rivers (upstream area >= 1000 km2, 1525 reaches) median HAND is 1.4 m within 0.2 km and 4.5 m at 1.6-3 km (p90 7.5 -> 15.0 m); 94% of points on these reaches have local-minimum HAND <= 2 m (tolerance +-400 m), but 75% of the whole AOI is also <= 2 m, so that figure alone is weak evidence. For the full reach network (>= 10 km2) the contrast is small (median 2.7 m within 0.2 km vs 2.7 m at 3-6 km) and HAND does not rise monotonically with distance (Spearman rho 0.01). Interpretation: HAND is clearly lowest along the major rivers; small streams are not resolved by this check (HydroRIVERS positional uncertainty is comparable to the grid cell, and the AOI is low-relief). This is a sanity check, not an accuracy assessment.
 
 ## Limitations
 - Effective resolution is ~90 m; the 20 m grid is for pixel alignment with NISAR, not added detail.
