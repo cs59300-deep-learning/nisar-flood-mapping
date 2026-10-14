@@ -1,0 +1,5 @@
+HAND alignment report (Ticket #13)
+NISAR grid: EPSG:32720, 20.0 m, 16740 x 16344, origin (534960.0, 9822240.0)
+Aligned HAND: valid 273,598,560 / 273,598,560 (100.000%), range 0.00-150.97 m
+CRS equal: True | transform pixel-exact: True | shape equal: True
+Clip bounds (lon/lat, footprint + 0.02 deg): (-62.7057, -4.5855, -59.6485, -1.5855)

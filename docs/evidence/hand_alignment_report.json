@@ -1,0 +1,88 @@
+{
+  "ticket": 13,
+  "purpose": "MERIT Hydro HAND aligned to the NISAR GCOV Frequency-A grid",
+  "nisar_reference_grid": {
+    "crs": "EPSG:32720",
+    "res": 20.0,
+    "width": 16740,
+    "height": 16344,
+    "x0": 534960.0,
+    "y0": 9822240.0
+  },
+  "source_mosaic": {
+    "file": "merit_hand_mosaic.tif",
+    "valid": 72000000,
+    "total": 72000000,
+    "valid_pct": 100.0,
+    "min": 0.0,
+    "max": 335.70001220703125
+  },
+  "clipped": {
+    "file": "merit_hand_aoi.tif",
+    "clip_bounds_lonlat": [
+      -62.705702,
+      -4.58547,
+      -59.648457,
+      -1.585526
+    ],
+    "valid": 13204800,
+    "total": 13215670,
+    "valid_pct": 99.9177491568721,
+    "min": 0.0,
+    "max": 151.8000030517578
+  },
+  "aligned": {
+    "file": "merit_hand_aligned.tif",
+    "crs_equal": true,
+    "transform_equal": true,
+    "transform_equal_expected": true,
+    "shape_equal": true,
+    "res_equal": true,
+    "crs": "EPSG:32720",
+    "res": [
+      20.0,
+      20.0
+    ],
+    "width": 16740,
+    "height": 16344,
+    "bounds": [
+      534960.0,
+      9495360.0,
+      869760.0,
+      9822240.0
+    ],
+    "nodata": "nan",
+    "dtype": "float32",
+    "valid": 273598560,
+    "total": 273598560,
+    "valid_pct": 100.0,
+    "min": 0.0,
+    "max": 150.968505859375
+  },
+  "resampling": "bilinear (90 m -> 20 m; alignment only, no added detail)",
+  "river_check": {
+    "baseline_all_land": {
+      "n": 2735316,
+      "median_m": 0.840615451335907,
+      "pct_le_2m": 74.79673280893323
+    },
+    "classes": {
+      "upland_ge_1000_km2": {
+        "reaches": 1525,
+        "points": 22524,
+        "median_m": 0.04892278462648392,
+        "p90_m": 1.3324397802352905,
+        "pct_le_2m": 94.1973006570769
+      },
+      "upland_ge_10000_km2": {
+        "reaches": 596,
+        "points": 9947,
+        "median_m": 0.0,
+        "p90_m": 0.4602377116680145,
+        "pct_le_2m": 99.86930732884286
+      }
+    },
+    "consistent_with_river_network": false,
+    "tolerance_m": 400.0
+  }
+}
