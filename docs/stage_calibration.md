@@ -17,7 +17,9 @@ drainage (HAND) is at or below the water height on that date:
   dates, then reused for every granule date. It is chosen to maximise the mean IoU between
   `{HAND <= stage - stage0}` and the reference (`calibrate_stage0`). The IoU is computed exactly for
   every candidate from the sorted HAND values, not by building one mask per candidate.
-- Negative `h` (river below the HAND = 0 level) floods nothing and is reported as `below_hand0`.
+- Negative `h` (river below the calibrated waterline) is floored at 0: the HAND = 0 channel stays wet, the raw
+  `h` is kept in the table and the row is marked `below_hand0`. A level under the channel is within the
+  vertical error of 90 m HAND, so it is not read as "no water".
   Pixels with no HAND value are excluded from every metric; they are never counted as dry.
 
 Code: `src/nisar_flood/groundtruth/stage_calibration.py`. Runner: `scripts/calibrate_stage0.py`.

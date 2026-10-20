@@ -367,7 +367,8 @@ def predict_inundation_by_date(
     ``matched`` is the output of ``match_nisar_dates_to_stage`` (manifest rows plus ``mean_stage``,
     in gauge units). Returns ``(masks, summary)``: ``masks`` maps ``granule_id`` to a boolean wet
     mask; ``summary`` has one row per granule. A granule with no gauge value gets no mask and
-    ``status == "no_gauge"`` rather than a guessed one.
+    ``status == "no_gauge"`` rather than a guessed one. When ``h < 0`` the mask is the HAND = 0 channel
+    (``h`` floored at 0) and ``status == "below_hand0"``.
     """
     masks: dict[str, np.ndarray] = {}
     rows = []
@@ -385,7 +386,9 @@ def predict_inundation_by_date(
         }
         if np.isfinite(stage_m):
             h = stage_m - stage0_m
-            wet, valid = inundation_mask(hand, h)
+            # A level just under the calibrated waterline still leaves the HAND = 0 channel wet: the
+            # extent is floored at h = 0 rather than dropped to nothing. ``water_height_m`` keeps the raw h.
+            wet, valid = inundation_mask(hand, max(h, 0.0))
             masks[row["granule_id"]] = wet
             n_wet, n_valid = int(wet.sum()), int(valid.sum())
             entry.update(

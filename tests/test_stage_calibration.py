@@ -204,7 +204,9 @@ def test_missing_gauge_gets_no_mask_and_below_hand0_is_flagged():
     masks, summary = predict_inundation_by_date(hand, matched, stage0_m=12.0)
 
     assert summary.loc[0, "status"] == "below_hand0"
-    assert masks["g0"].sum() == 0
+    # below the calibrated waterline the extent is floored at h = 0 (the channel stays wet), not emptied
+    assert summary.loc[0, "water_height_m"] < 0
+    assert (masks["g0"] == inundation_mask(hand, 0.0)[0]).all() and masks["g0"].sum() > 0
     assert summary.loc[1, "status"] == "no_gauge"
     assert "g1" not in masks
 
