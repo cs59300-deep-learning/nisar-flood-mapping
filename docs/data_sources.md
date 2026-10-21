@@ -89,7 +89,7 @@ greater than 5 months** (strictly: 6 or more). Then, on the NISAR grid:
 | No data | 255 | JRC no data, or JERS-1 no data where not permanent |
 
 Permanent water wins over the JERS-1 class, so the river channel is never
-counted as flood. Processing (`groundtruth/reference_layers.py`):
+counted as flood. Processing (`groundtruth/published_reference.py`):
 `clip_raster_to_aoi` (mosaics the JRC tiles; values and dtype preserved) ->
 `align_categorical_to_reference` (nearest neighbour onto the NISAR grid,
 EPSG:32720, 20 m, as for HAND) -> `separate_permanent_and_flood_water`.

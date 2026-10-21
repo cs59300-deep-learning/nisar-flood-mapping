@@ -3,7 +3,7 @@ import pytest
 import rasterio
 from rasterio.transform import from_origin
 
-from nisar_flood.groundtruth.reference_layers import (
+from nisar_flood.groundtruth.published_reference import (
     CLASS_FLOOD_WATER,
     CLASS_LAND,
     CLASS_NODATA,
