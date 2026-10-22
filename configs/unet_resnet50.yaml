@@ -22,7 +22,8 @@ train:
   lr: 0.0003
   weight_decay: 0.0001
   dice_weight: 1.0
-  amp: true                   # mixed precision; ignored on CPU and MPS
+  amp: true                   # mixed precision: bfloat16 on Ampere+, float16 on
+                              # older CUDA cards, off on CPU and MPS
   grad_clip: 1.0
   scheduler: cosine           # cosine | none
   warmup_epochs: 2

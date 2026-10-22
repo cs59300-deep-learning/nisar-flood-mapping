@@ -6,7 +6,7 @@ reproduces it.
 
 Writes into the config's output directory:
     history.csv      per-epoch loss and validation metrics
-    curves.png       loss and IoU curves (an acceptance criterion on #19)
+    curves.png       loss and IoU curves
     best.pt          checkpoint with the best validation headline metric
     last.pt          final-epoch checkpoint, for resuming
     summary.json     best epoch, metrics and the config used
@@ -46,6 +46,25 @@ def pick_device():
     return torch.device("cpu")
 
 
+def amp_dtype(device, enabled=True):
+    """Which mixed-precision dtype to use, or None for full precision.
+
+    Older cards (T4, and anything pre-Ampere) only accelerate float16, which has
+    a narrow exponent range - gradients underflow to zero, which is why a
+    GradScaler is needed to keep them representable.
+
+    Ampere and newer (A100, H100, 40-series) support bfloat16, which keeps
+    float32's exponent range at reduced precision. Nothing underflows, so no
+    scaler is needed and there is one less way for a run to diverge silently.
+
+    Picking by capability means the same config trains correctly on a T4 and on
+    an H100 with no edit.
+    """
+    if not enabled or device.type != "cuda":
+        return None
+    return torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
+
+
 def lr_at(epoch, cfg):
     """Cosine schedule with a short linear warmup, as a multiplier on the base lr."""
     warmup, epochs = cfg.get("warmup_epochs", 0), cfg["epochs"]
@@ -66,17 +85,18 @@ def run_epoch(model, loader, device, optimizer=None, scaler=None, cfg=None, desc
     training = optimizer is not None
     model.train(training)
     meter, total, n = IoUMeter(), 0.0, 0
-    amp = bool(cfg.get("amp", False)) and device.type == "cuda"
+    dtype = amp_dtype(device, bool(cfg.get("amp", False)))
 
     for x, y in tqdm(loader, desc=desc, leave=False):
         x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
         with torch.set_grad_enabled(training):
-            with torch.autocast("cuda", enabled=amp):
+            with torch.autocast("cuda", dtype=dtype or torch.float16,
+                                enabled=dtype is not None):
                 logits = model(x)
                 loss = masked_ce_dice_loss(logits, y, dice_weight=cfg.get("dice_weight", 1.0))
         if training:
             optimizer.zero_grad(set_to_none=True)
-            if amp:
+            if scaler is not None and scaler.is_enabled():   # float16 only
                 scaler.scale(loss).backward()
                 if cfg.get("grad_clip"):
                     scaler.unscale_(optimizer)
@@ -89,8 +109,8 @@ def run_epoch(model, loader, device, optimizer=None, scaler=None, cfg=None, desc
                     torch.nn.utils.clip_grad_norm_(model.parameters(), cfg["grad_clip"])
                 optimizer.step()
         else:
-            # Score chip by chip: the headline metric is an image-wise mean, so
-            # a whole batch must not be pooled into one "chip".
+            # Scored chip by chip. The headline metric is an image-wise mean,
+            # so pooling a batch into one update would compute something else.
             for pred_i, y_i in zip(logits.argmax(1), y):
                 meter.update(pred_i, y_i)
         total += loss.detach().item() * x.size(0)
@@ -139,9 +159,13 @@ def train(config_path, overrides=None):
     model = build_model(cfg["model"]).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=tcfg["lr"],
                                   weight_decay=tcfg.get("weight_decay", 0.0))
-    scaler = torch.amp.GradScaler("cuda", enabled=bool(tcfg.get("amp")) and device.type == "cuda")
+    dtype = amp_dtype(device, bool(tcfg.get("amp")))
+    # bfloat16 cannot underflow the way float16 does, so it needs no scaler.
+    scaler = torch.amp.GradScaler("cuda", enabled=dtype is torch.float16)
 
-    print(f"{cfg['name']} | {device} | {count_parameters(model):,} trainable params | seed {seed}")
+    precision = str(dtype).replace("torch.", "") if dtype else "float32"
+    print(f"{cfg['name']} | {device} | {precision} | "
+          f"{count_parameters(model):,} trainable params | seed {seed}")
     print(f"train {len(loaders['train'].dataset)} chips, val {len(loaders['val'].dataset)} chips")
 
     select_on = cfg["eval"]["select_on"]

@@ -21,13 +21,13 @@ def random_flip_rotate(x, y, rng):
     """Random dihedral transform: flips and 90-degree rotations.
 
     x is (C, H, W), y is (H, W). The eight symmetries of the square are the only
-    augmentation we apply. They are safe for SAR because they do not alter pixel
-    values: brightness/contrast jitter would change backscatter, which is the
-    physical quantity the model is meant to read.
+    augmentation applied. They are safe for SAR because they move pixels without
+    altering their values; brightness or contrast jitter would change
+    backscatter, which is the physical quantity the model reads.
 
-    Orientation does carry some information in SAR (the look direction fixes
-    which slopes are bright), but with 252 training chips the overfitting risk
-    outweighs it.
+    Orientation does carry some information in SAR, since the look direction
+    fixes which slopes appear bright. On a 252-chip training split the
+    overfitting risk outweighs that signal.
     """
     if rng.random() < 0.5:                      # horizontal flip
         x, y = x[:, :, ::-1], y[:, ::-1]

@@ -1,9 +1,8 @@
 """Score a trained checkpoint on the held-out splits (issues #19 and #20).
 
-The Sen1Floods11 paper reports the image-wise mean water IoU on the test split;
-`bolivia` is their held-out out-of-distribution split and is reported separately
-because it is the closest thing in the source domain to the transfer question
-E4 asks about NISAR.
+Sen1Floods11 reports the image-wise mean water IoU on the test split. The
+`bolivia` split is held out as out-of-distribution data and is scored
+separately, since a model can do well on test while failing to generalise.
 """
 import argparse
 import json
@@ -17,10 +16,9 @@ from ..metrics.iou import HEADLINE_METRIC, IoUMeter
 from ..models.builder import build_model
 from .train import pick_device
 
-# Reference figure from Bonafilia et al. (CVPRW 2020) for the hand-labelled test
-# split. TODO(#19): read the exact value off the paper before quoting it in the
-# report - this placeholder has not been checked against the source, and #19
-# only commits us to "roughly 0.55-0.65". Set to None to skip the comparison.
+# Published water IoU on the hand-labelled test split, for a side-by-side with
+# the figure this code produces. None disables the comparison.
+# TODO: value not yet verified against Bonafilia et al. (CVPRW 2020).
 PUBLISHED_TEST_IOU = None
 
 
@@ -68,8 +66,8 @@ def evaluate(checkpoint, splits=("test", "bolivia"), root=None):
         gap = headline - PUBLISHED_TEST_IOU
         print(f"test {HEADLINE_METRIC} {headline:.4f} vs published {PUBLISHED_TEST_IOU:.4f} "
               f"({gap:+.4f})")
-        print("A shortfall here is the expected reproduction gap (#19), not a bug - "
-              "state it in the report rather than hiding it.")
+        print("A PyTorch reimplementation is expected to land below the published "
+              "figure; the difference is a reproduction gap, not necessarily a fault.")
 
     out = Path(checkpoint).parent / "eval.json"
     out.write_text(json.dumps({"checkpoint": str(checkpoint), "results": results,
