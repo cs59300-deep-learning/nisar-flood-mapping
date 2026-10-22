@@ -15,17 +15,24 @@ class TestAmpDtype:
         assert amp_dtype(torch.device("mps")) is None
 
     def test_ampere_and_newer_get_bfloat16(self):
-        """A100/H100: bfloat16 keeps float32's range, so no scaler is needed."""
-        with patch.object(torch.cuda, "is_bf16_supported", lambda: True):
+        """A100/H100 (capability 8+): bfloat16 keeps float32's exponent range."""
+        with patch.object(torch.cuda, "get_device_capability", lambda: (8, 0)):
             assert amp_dtype(torch.device("cuda")) is torch.bfloat16
 
     def test_older_cuda_cards_get_float16(self):
-        """T4 and pre-Ampere: float16 only, which is why GradScaler exists."""
-        with patch.object(torch.cuda, "is_bf16_supported", lambda: False):
+        """T4 is Turing (7.5): its tensor cores do float16, not bfloat16."""
+        with patch.object(torch.cuda, "get_device_capability", lambda: (7, 5)):
+            assert amp_dtype(torch.device("cuda")) is torch.float16
+
+    def test_turing_is_not_misread_as_bfloat16_capable(self):
+        """torch.cuda.is_bf16_supported() answers True on Turing via a software
+        path, so the selection reads compute capability instead."""
+        with patch.object(torch.cuda, "get_device_capability", lambda: (7, 5)), \
+             patch.object(torch.cuda, "is_bf16_supported", lambda: True):
             assert amp_dtype(torch.device("cuda")) is torch.float16
 
     def test_disabled_overrides_capability(self):
-        with patch.object(torch.cuda, "is_bf16_supported", lambda: True):
+        with patch.object(torch.cuda, "get_device_capability", lambda: (9, 0)):
             assert amp_dtype(torch.device("cuda"), enabled=False) is None
 
 

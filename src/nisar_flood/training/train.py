@@ -59,10 +59,14 @@ def amp_dtype(device, enabled=True):
 
     Picking by capability means the same config trains correctly on a T4 and on
     an H100 with no edit.
+
+    The check reads compute capability directly. torch.cuda.is_bf16_supported()
+    defaults to including_emulation=True, so it answers True on Turing, where
+    bfloat16 runs in software and misses the float16 tensor cores entirely.
     """
     if not enabled or device.type != "cuda":
         return None
-    return torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
+    return torch.bfloat16 if torch.cuda.get_device_capability()[0] >= 8 else torch.float16
 
 
 def lr_at(epoch, cfg):
