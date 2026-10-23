@@ -1,0 +1,39 @@
+# CNN baseline: U-Net with a ResNet50 encoder, trained on Sen1Floods11 (issue #19).
+# This file is the complete description of a run: `train.py --config` plus `seed`
+# is all that is needed to reproduce it.
+
+name: unet_resnet50
+
+model:
+  arch: unet
+  encoder: resnet50
+  encoder_weights: imagenet   # null to train from scratch
+  in_channels: 2              # VV, VH
+  classes: 2                  # not water / water
+
+data:
+  root: data/sen1floods11
+  batch_size: 8               # ~31 iterations per epoch over the 252 train chips
+  workers: 2
+  augment: true               # flips and 90-degree rotations; see datasets/transforms.py
+
+train:
+  epochs: 100
+  lr: 0.0003
+  weight_decay: 0.0001
+  dice_weight: 1.0
+  amp: true                   # mixed precision: bfloat16 on Ampere+, float16 on
+                              # older CUDA cards, off on CPU and MPS
+  grad_clip: 1.0
+  scheduler: cosine           # cosine | none
+  warmup_epochs: 2
+  seed: 0
+
+eval:
+  # Checkpoint selection and the headline number both use the Sen1Floods11
+  # image-wise mean (metrics/iou.py HEADLINE_METRIC), not the pooled IoU.
+  select_on: iou_water_per_chip_mean
+  split: val
+
+output:
+  dir: runs/unet_resnet50      # untracked; curves and metrics are copied into reports/
