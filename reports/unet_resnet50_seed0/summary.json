@@ -1,0 +1,42 @@
+{
+  "name": "unet_resnet50",
+  "seed": 0,
+  "best_epoch": 43,
+  "best_iou_water_per_chip_mean": 0.4219392650716462,
+  "minutes": 22.5,
+  "device": "cuda",
+  "config": {
+    "name": "unet_resnet50",
+    "model": {
+      "arch": "unet",
+      "encoder": "resnet50",
+      "encoder_weights": "imagenet",
+      "in_channels": 2,
+      "classes": 2
+    },
+    "data": {
+      "root": "data/sen1floods11",
+      "batch_size": 8,
+      "workers": 2,
+      "augment": true
+    },
+    "train": {
+      "epochs": 100,
+      "lr": 0.0003,
+      "weight_decay": 0.0001,
+      "dice_weight": 1.0,
+      "amp": true,
+      "grad_clip": 1.0,
+      "scheduler": "cosine",
+      "warmup_epochs": 2,
+      "seed": 0
+    },
+    "eval": {
+      "select_on": "iou_water_per_chip_mean",
+      "split": "val"
+    },
+    "output": {
+      "dir": "runs/unet_resnet50"
+    }
+  }
+}

@@ -16,10 +16,12 @@ from ..metrics.iou import HEADLINE_METRIC, IoUMeter
 from ..models.builder import build_model
 from .train import pick_device
 
-# Published water IoU on the hand-labelled test split, for a side-by-side with
-# the figure this code produces. None disables the comparison.
-# TODO: value not yet verified against Bonafilia et al. (CVPRW 2020).
-PUBLISHED_TEST_IOU = None
+# Bonafilia et al., Sen1Floods11 (CVPRW 2020), Table 1, "all water" column, row
+# "Hand-Labeled": the published model trained on the same 252 hand-labelled
+# chips. Their metric is the image-wise mean ("mean IOU, equal weighting of all
+# chips"), which is HEADLINE_METRIC here, so the two are directly comparable.
+# Their Bolivia figure is 0.3524 (Table 2). None disables the comparison.
+PUBLISHED_TEST_IOU = 0.3125
 
 
 def load_checkpoint(path, device):
@@ -66,8 +68,9 @@ def evaluate(checkpoint, splits=("test", "bolivia"), root=None):
         gap = headline - PUBLISHED_TEST_IOU
         print(f"test {HEADLINE_METRIC} {headline:.4f} vs published {PUBLISHED_TEST_IOU:.4f} "
               f"({gap:+.4f})")
-        print("A PyTorch reimplementation is expected to land below the published "
-              "figure; the difference is a reproduction gap, not necessarily a fault.")
+        print("The published figure comes from an FCN decoder on the same ResNet50 "
+              "backbone, with no hyperparameter search. A gap in either direction "
+              "is a difference in method, not a reproduction error.")
 
     out = Path(checkpoint).parent / "eval.json"
     out.write_text(json.dumps({"checkpoint": str(checkpoint), "results": results,
