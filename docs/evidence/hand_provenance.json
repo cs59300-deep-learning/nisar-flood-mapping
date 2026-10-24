@@ -1,0 +1,59 @@
+{
+  "created_utc": "2026-10-10T17:34:29+00:00",
+  "branch": "E2/canopy-corrected-HAND-terrain",
+  "commit_before_this_file": "45d96afe35403732456c4365fb640edba3445149",
+  "software": {
+    "python": "3.13.15",
+    "rasterio": "1.5.2",
+    "gdal": "3.12.2",
+    "numpy": "2.1.3",
+    "scipy": "1.16.3",
+    "geopandas": "1.2.0"
+  },
+  "nisar_grid": {
+    "crs": "EPSG:32720",
+    "res": 20.0,
+    "width": 16740,
+    "height": 16344,
+    "x0": 534960.0,
+    "y0": 9822240.0
+  },
+  "clip_bounds_lonlat": [
+    -62.705702,
+    -4.58547,
+    -59.648457,
+    -1.585526
+  ],
+  "resampling": "bilinear",
+  "inputs": {
+    "merit_hydro_tiles": {
+      "s05w060_hnd.tif": {
+        "sha256": "542441bb1f6d86a8b5d8b4435f7d7bb88b9709b7eb9b0850b6e0c02916e3eb44",
+        "bytes": 109620594,
+        "package_and_member": "hnd_s30w060/s05w060_hnd.tif"
+      },
+      "s05w065_hnd.tif": {
+        "sha256": "78763f77fcf4c6acaf38e13665159ee5cb753ad57307e463d3f04590936b20fa",
+        "bytes": 89325106,
+        "package_and_member": "hnd_s30w090/s05w065_hnd.tif"
+      }
+    },
+    "hydrorivers": {
+      "sha256": "38bfdcdfcc0698b1b37c1700434bcd65e792244d704153f055969f356d5cc7d5",
+      "bytes": 95257204,
+      "url": "https://data.hydrosheds.org/file/HydroRIVERS/HydroRIVERS_v10_sa_shp.zip"
+    }
+  },
+  "outputs": {
+    "hand_aoi_tif": {
+      "sha256": "dffb657e980e138e4f0b779dcaf218331d47b4f878a41cda20cfebc91ba84f93",
+      "bytes": 945194171,
+      "location": "Google Drive: nisar_ticket13_hand/hand_aoi.tif (too large for git)"
+    },
+    "clipped": {
+      "sha256": "1e900b90de6c30c2c264364308b219109753fe8dce126875139d9e492c74ade1",
+      "bytes": 22993311,
+      "location": "Google Drive: nisar_ticket13_hand/merit_hand_aoi.tif"
+    }
+  }
+}
