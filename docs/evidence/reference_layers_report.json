@@ -1,0 +1,118 @@
+{
+  "ticket": 15,
+  "created_utc": "2026-10-24T23:54:18+00:00",
+  "repo_commit": "7b5f108253a8c2d16d09bce33c6d6b345529d25e",
+  "software": {
+    "rasterio": "1.5.2",
+    "numpy": "2.1.3"
+  },
+  "aoi_bounds_lonlat": [
+    -62.705702,
+    -4.58547,
+    -59.648457,
+    -1.585526
+  ],
+  "parameters": {
+    "permanent_if_seasonality_greater_than_months": 5,
+    "jers1_wetland_values": [
+      13,
+      21,
+      23,
+      33,
+      41,
+      45,
+      51,
+      55,
+      67,
+      77,
+      89,
+      99
+    ],
+    "classes": {
+      "land": 0,
+      "permanent_water": 1,
+      "flood_water": 2,
+      "nodata": 255
+    }
+  },
+  "inputs": {
+    "seasonality_70W_0Nv1_4_2021.tif": {
+      "bytes": 23525456,
+      "sha256": "d2a73b3a117799428a9d52295def234fa79dc9fb7a615e3c984ac23df7d2cbf2"
+    },
+    "seasonality_60W_0Nv1_4_2021.tif": {
+      "bytes": 25922352,
+      "sha256": "936b4ce750c1c29e193f469ee936b3b01e5c71d7a8f1079005c964a8c165fd61"
+    },
+    "LBA_Amazon_wetland_dual-season_veg_flood_3arcsec.tif": {
+      "bytes": 59121017,
+      "sha256": "394b00f779223664f00060a0acf60132beece58135fe88be132e6bb367ea157d"
+    }
+  },
+  "jers1_class_codes_full_raster": {
+    "0": 351866552,
+    "1": 498314444,
+    "11": 6296503,
+    "13": 329972,
+    "21": 1702460,
+    "23": 7752014,
+    "33": 6307170,
+    "41": 365136,
+    "44": 144924,
+    "45": 4985207,
+    "51": 262525,
+    "55": 86450,
+    "67": 2277710,
+    "77": 7984908,
+    "88": 24202838,
+    "89": 24330359,
+    "99": 12401278,
+    "200": 92123895,
+    "255": 124870864
+  },
+  "jrc_seasonality_values_in_aoi": {
+    "0": 134143933,
+    "1": 451702,
+    "2": 489026,
+    "3": 652257,
+    "4": 800871,
+    "5": 724094,
+    "6": 585173,
+    "7": 403629,
+    "8": 181232,
+    "9": 78658,
+    "10": 31337,
+    "11": 9133,
+    "12": 8196955
+  },
+  "outputs_in_drive": "/content/drive/MyDrive/nisar_ticket15_reference",
+  "output_sha256": {
+    "jrc_clip": "82c0719a3338a81f9b70bd04834558a15c7cfd1784c367f6cad43618ca9f57eb",
+    "jers1_clip": "2dfa10e88f2f44e3743299299fed21ea37cedd64b0a465f17b65292172cb45fb",
+    "jrc_aligned": "f889f24b6ab3a5565857069d4ec86d32b036612c2977b9a8feb2a71ccaf713e1",
+    "jers1_aligned": "71724d625f103785478efc71d906d47ccf3762bb9a3a747f35ae5d4c75541a26",
+    "separation": "ab23b9d04a40061f232427b5f3671de7390acb9c3e31b759e5a8be7ebe8b63ee"
+  },
+  "nisar_grid_match": {
+    "crs": "EPSG:32720",
+    "shape": [
+      16344,
+      16740
+    ],
+    "transform_equal": true
+  },
+  "class_stats": {
+    "land": {
+      "pixels": 204088226,
+      "percent": 74.594
+    },
+    "permanent water": {
+      "pixels": 17607911,
+      "percent": 6.436
+    },
+    "flood water": {
+      "pixels": 51902423,
+      "percent": 18.97
+    }
+  }
+}
