@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import rasterio
 import numpy as np
-from rasterio.warp import calculate_default_transform, reproject, Resampling
+import rasterio
+from rasterio.warp import Resampling, calculate_default_transform, reproject
 
 
 def reproject_raster(
@@ -33,6 +33,10 @@ def reproject_raster(
                     source=rasterio.band(src, band), destination=rasterio.band(dst, band),
                     src_transform=src.transform, src_crs=src.crs,
                     dst_transform=transform, dst_crs=dst_crs,
+                    # With no nodata declared on the source, GDAL leaves the
+                    # corners the warp never reaches at 0. For backscatter in dB
+                    # 0 is a real value, so the mask written below, not the pixel
+                    # value, is what says which pixels carry data.
                     src_nodata=src.nodata, dst_nodata=src.nodata,
                     resampling=resampling,
                 )
