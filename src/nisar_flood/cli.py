@@ -4,6 +4,8 @@
     nisar-flood check    --root data/sen1floods11
     nisar-flood train    --config configs/unet_resnet50.yaml
     nisar-flood evaluate --checkpoint runs/unet_resnet50/seed0/best.pt
+    nisar-flood label-init   --chips data/nisar/chips --out data/labels/annotations
+    nisar-flood label-export --chips data/nisar/chips --annotations data/labels/annotations
 """
 import argparse
 
@@ -29,6 +31,18 @@ def main():
     ev.add_argument("--splits", nargs="+", default=["test", "bolivia"])
     ev.add_argument("--root")
 
+    li = sub.add_parser("label-init", help="seed a QGIS annotation file per chip (#28)")
+    li.add_argument("--chips", required=True)
+    li.add_argument("--out", required=True)
+    li.add_argument("--labeller", default="")
+    li.add_argument("--overwrite", action="store_true",
+                    help="replace annotation files that already exist")
+
+    le = sub.add_parser("label-export", help="burn annotations into label rasters (#28)")
+    le.add_argument("--chips", required=True)
+    le.add_argument("--annotations", required=True)
+    le.add_argument("--out", default="data/labels/masks")
+
     args = p.parse_args()
 
     if args.command in ("download", "check"):
@@ -42,6 +56,18 @@ def main():
     elif args.command == "evaluate":
         from .training.evaluate import evaluate
         evaluate(args.checkpoint, tuple(args.splits), args.root)
+    elif args.command == "label-init":
+        from .labelling.chip_export import start_annotations_directory
+        created = start_annotations_directory(args.chips, args.out, labeller=args.labeller,
+                                              overwrite=args.overwrite)
+        print(f"{len(created)} annotation files written to {args.out}")
+    elif args.command == "label-export":
+        from .labelling.chip_export import rasterise_directory
+        rows = rasterise_directory(args.chips, args.annotations, args.out)
+        for row in rows:
+            print(f"{row['chip_id']:30s} water {row['water_px']:7d} px  "
+                  f"excluded {row['excluded_px']:7d}  no-data {row['no_data_px']:7d}")
+        print(f"\n{len(rows)} chips written to {args.out}")
 
 
 if __name__ == "__main__":

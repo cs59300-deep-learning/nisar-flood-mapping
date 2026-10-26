@@ -154,8 +154,8 @@ interpretable surface class -> **`-1`**.
    poor.
 4. The **gold set (#30, ~50 chips)** is labelled only after calibration passes.
 
-Tooling and the exact mask format are issue #28; this document defines *what*
-the labels mean, not the tool.
+Tooling and the exact mask format are `docs/labelling_tooling.md` (#28); this
+document defines *what* the labels mean, not the tool.
 
 ---
 
