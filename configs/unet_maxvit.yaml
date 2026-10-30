@@ -1,6 +1,7 @@
 # Transformer arm: U-Net with a MaxViT-base encoder, trained on Sen1Floods11 (issue #20).
-# Identical to configs/unet_resnet50.yaml except the encoder, the run name and the output
-# directory, so the two arms are comparable. Any further change must be recorded in the report.
+# Identical to configs/unet_resnet50.yaml except the encoder, the run name, the output
+# directory, and batch_size 4 x accum_steps 2 (effective batch 8) because batch 8 does not
+# fit on a T4. Any further change must be recorded in the report.
 
 name: unet_maxvit
 
