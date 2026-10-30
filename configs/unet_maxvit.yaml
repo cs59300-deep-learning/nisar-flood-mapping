@@ -1,0 +1,37 @@
+# Transformer arm: U-Net with a MaxViT-base encoder, trained on Sen1Floods11 (issue #20).
+# Identical to configs/unet_resnet50.yaml except the encoder, the run name and the output
+# directory, so the two arms are comparable. Any further change must be recorded in the report.
+
+name: unet_maxvit
+
+model:
+  arch: unet
+  encoder: maxvit_base        # tu-maxvit_base_tf_512, see models/builder.py
+  encoder_weights: imagenet   # null to train from scratch
+  in_channels: 2              # VV, VH
+  classes: 2                  # not water / water
+
+data:
+  root: data/sen1floods11
+  batch_size: 4
+  workers: 2
+  augment: true
+
+train:
+  epochs: 100
+  lr: 0.0003
+  weight_decay: 0.0001
+  dice_weight: 1.0
+  amp: true
+  grad_clip: 1.0
+  scheduler: cosine
+  warmup_epochs: 2
+  seed: 0
+  accum_steps: 2
+
+eval:
+  select_on: iou_water_per_chip_mean
+  split: val
+
+output:
+  dir: runs/unet_maxvit
