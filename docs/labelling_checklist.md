@@ -33,7 +33,34 @@ Ticking and unticking **HV** is how you check both bands. No menus.
 - [ ] Geojson layer **selected** by name (grey text means nothing will work)
 - [ ] Zoom between **1:25,000 and 1:40,000** — if you can see single pixels, zoom out
 - [ ] Editing **on** (pencil icon lit)
-- [ ] Know the gauge reading for this date (high water means expect class `2`)
+- [ ] Read the gauge figure for this chip's date in the table below
+
+---
+
+## How high is the river on this date
+
+Every chip in the current assignment is from **18 June 2026**, so for now the
+answer is always the first row.
+
+| Chip date | Gauge | Above bank level | Where that sits in the year | What to expect |
+|---|---|---|---|---|
+| **2026-06-18** | **28.47 m** | **+7.95 m** | 88th percentile | floodplain is inundated — expect plenty of class `2` |
+| 2026-07-12 | 28.26 m | +7.74 m | 73rd | still high |
+| 2026-08-29 | 24.44 m | +3.93 m | 26th | falling |
+| 2026-09-22 | 20.35 m | −0.16 m | 6th | low — river within its banks, little or no class `2` |
+
+"Above bank level" is the gauge reading minus **20.51 m**, the level at which
+the river sits exactly at its banks. Ground lying less than that height above
+the nearest channel can be under water; ground above it cannot.
+
+So on 18 June, anything less than about 8 m above the nearest drainage is
+floodable. That is what makes a dark patch plausible as water, and a
+vegetation-textured patch a candidate for class `2`.
+
+Sources: [`../data/gauge/manaus_daily_stage_2026.csv`](../data/gauge/manaus_daily_stage_2026.csv)
+for the daily readings, and `stage0_m` in
+[`evidence/stage_calibration_report.json`](evidence/stage_calibration_report.json)
+for the 20.51 m bank level.
 
 ---
 
