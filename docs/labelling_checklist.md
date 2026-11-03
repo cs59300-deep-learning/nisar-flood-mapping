@@ -76,14 +76,41 @@ Band 2 (HV gamma0 dB)   -22.9
 
 Compare against the values measured on this granule:
 
-| | HH | HV | HH − HV |
-|---|---|---|---|
-| Water | below −14 | below −18 | small |
-| Dry land or forest | about −6 | about −11 | about 5 |
-| Flooded vegetation | above −6 | still about −12 | **above 8** |
+| What you see | HH | HV | HH − HV | What it is |
+|---|---|---|---|---|
+| Very dark in both bands | about −18 | about −22 | ~4 | open water |
+| **Bright — the most common thing in the chip** | about −6 | about −11 | **~5** | forest canopy, dry |
+| **Brightest, and HV came up too** | about −2 | about −7 | **~5** | rough ground, or a slope facing the radar |
+| **Brightest, but HV stayed low** | about −2 | about −12 | **above 8** | **water under trees** |
+
+The last two rows look identical on screen. Both are "the brightest thing
+here". Only HV separates them, and that difference is the whole
+flooded-vegetation question.
+
+So when something looks bright, the question is not *how* bright. It is
+**did HV come up with it?** If it did, the surface is simply rough. If HV
+stayed down at forest level while HH climbed, something is bouncing twice —
+off the water, then off the trunks.
 
 Click three or four pixels inside anything doubtful, not just one — speckle
 moves a single pixel by about 1.4 dB on its own.
+
+---
+
+## Reading the ground without a terrain layer
+
+Two patterns tell you whether a surface is high ground or floodplain, from the
+image alone:
+
+- **Branching, tree-like channels** cut into a surface mean water is eroding
+  it, so it sits above the water table. High ground. Dark patches there are
+  shadow or dry, not flood.
+- **Curved, looping, scrolled patterns** — old meander scars and oxbows — are
+  what a river leaves behind as it deposits. Floodplain. Low ground, and dark
+  patches there are plausibly water.
+
+This is a proxy, not a measurement. It is what we have until a terrain layer
+ships alongside the chips.
 
 ---
 
