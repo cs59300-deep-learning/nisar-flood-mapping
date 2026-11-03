@@ -1,5 +1,9 @@
 # Labelling tooling
 
+> For the short, per-polygon version to keep open while you work, see
+> [`labelling_checklist.md`](labelling_checklist.md). This document is the
+> full reference for the tool and the file formats.
+
 Issue #28. `docs/labelling_protocol.md` defines *what* the four class values
 mean; this file defines the tool, the file formats and the burn rules, so that
 four people drawing on four laptops produce the same thing.
