@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 """Published reference layers for ground truth (Ticket #15).
 
 Two external products are used as an independent cross-check of the
@@ -282,6 +283,8 @@ def build_reference_layers(
         "separation": sep,
     }
 =======
+=======
+>>>>>>> b79a53e4a063078c10b56f1e69dc2e5f56d301a2
 """Independent water-extent reference layers, put on the HAND grid (#14, #15).
 
 The calibration in ``stage_calibration`` needs a binary water mask that is independent of both NISAR
@@ -488,4 +491,7 @@ def mosaic_tiles_to_grid(
         dst.write(dest, 1)
     summary["out_path"] = str(out_path)
     return summary
+<<<<<<< HEAD
 >>>>>>> e1bf92b529b3ed2cf57c63eb31a132101bfdae04
+=======
+>>>>>>> b79a53e4a063078c10b56f1e69dc2e5f56d301a2

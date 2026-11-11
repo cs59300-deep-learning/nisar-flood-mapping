@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 <<<<<<< HEAD
+<<<<<<< HEAD
 import rasterio
 from rasterio.transform import from_origin
 
@@ -111,6 +112,8 @@ def test_build_reference_layers_end_to_end(tmp_path):
     assert vals <= {CLASS_LAND, CLASS_PERMANENT_WATER, CLASS_FLOOD_WATER, CLASS_NODATA}
     assert CLASS_PERMANENT_WATER in vals or CLASS_FLOOD_WATER in vals
 =======
+=======
+>>>>>>> b79a53e4a063078c10b56f1e69dc2e5f56d301a2
 
 rasterio = pytest.importorskip("rasterio")
 from rasterio.transform import from_origin
@@ -301,4 +304,7 @@ def test_download_explains_a_403(tmp_path):
     with pytest.raises(PermissionError, match="accept the PO.DAAC/ASF data terms"):
         download_with_session(FakeSession(FakeResponse(403)), BASE + "x_B01_WTR.tif", tmp_path)
     assert not list(tmp_path.iterdir())  # nothing half-written is left behind
+<<<<<<< HEAD
 >>>>>>> e1bf92b529b3ed2cf57c63eb31a132101bfdae04
+=======
+>>>>>>> b79a53e4a063078c10b56f1e69dc2e5f56d301a2

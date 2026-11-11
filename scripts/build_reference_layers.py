@@ -13,7 +13,7 @@ confirm them against the ORNL DAAC dataset guide before choosing
 
 import argparse
 
-from nisar_flood.groundtruth.reference_layers import (
+from nisar_flood.groundtruth.published_reference import (
     PERMANENT_MONTHS_THRESHOLD,
     build_reference_layers,
     unique_values,
