@@ -129,8 +129,8 @@ values, not the dtype.
    same every session: `Layer Properties > Symbology`, min -40 dB, max 0 dB.
 
 4. Toggle editing on the GeoJSON layer (the pencil icon), draw your polygons,
-   and fill in `class`, `labeller`, `labelled_on`, `evidence_tier` and `notes`
-   for each. Save.
+   and fill in `class`, `labeller`, `labelled_on` and `evidence_tier` for
+   each. `notes` is optional. Save.
 
 5. Burn them to label rasters:
 

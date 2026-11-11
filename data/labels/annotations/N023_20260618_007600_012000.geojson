@@ -1,0 +1,43 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -60.481230976242884,
+              -3.0277203016161423
+            ],
+            [
+              -60.479389728681085,
+              -3.0277159991707014
+            ],
+            [
+              -60.47939400862307,
+              -3.025864965901984
+            ],
+            [
+              -60.48123525306654,
+              -3.025869265712366
+            ],
+            [
+              -60.481230976242884,
+              -3.0277203016161423
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "chip_id": "N023_20260618_007600_012000",
+        "class": null,
+        "labeller": "varunteja99",
+        "labelled_on": "",
+        "evidence_tier": null,
+        "notes": "placeholder so QGIS sees a polygon layer; ignored on export"
+      }
+    }
+  ]
+}

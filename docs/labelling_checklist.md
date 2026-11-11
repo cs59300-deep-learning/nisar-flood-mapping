@@ -167,7 +167,7 @@ Work down the list. Stop at the first line that matches.
 | `labeller` | your GitHub handle |
 | `labelled_on` | today, `YYYY-MM-DD` |
 | `evidence_tier` | `1` backscatter · `2` ground height + gauge · `3` reference layer |
-| `notes` | required for every `2` and `-1`: one line on why |
+| `notes` | optional: a line on why, when the call was a close one |
 
 Switch on **Reuse Last Entered Attribute Values** on the digitizing toolbar and
 only `class` needs typing after the first polygon.
