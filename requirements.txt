@@ -24,6 +24,9 @@ segmentation-models-pytorch>=0.3.3   # U-Net decoder for both arms (#19, #20)
 timm>=0.9.16                         # supplies the MaxViT encoder (#20)
 albumentations>=1.4
 
+# --- Checkpoint and data hosting ---
+huggingface-hub>=0.23    # checkpoints and chips live off-git (docs/data_sources.md)
+
 # --- Ground truth sources ---
 requests>=2.31
 zeep>=4.2              # ANA HidroWeb SOAP endpoint for the Manaus gauge (#12)

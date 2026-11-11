@@ -1,0 +1,70 @@
+{
+  "created_utc": "2026-10-20T01:05:55+00:00",
+  "model": "h(date) = stage(date) - stage0; wet = HAND <= h(date)",
+  "stage0_m": 20.51175,
+  "stage0_range_m": [
+    20.51175,
+    20.51175
+  ],
+  "mean_iou": 0.5108886909437158,
+  "plateau_reaches_search_edge": false,
+  "gauge_unit_to_m": 0.01,
+  "fit_decimation_factor": 4,
+  "hand": "/content/flood_tiffs/tiff_1.tif",
+  "calibration_dates": [
+    {
+      "date": "2026-09-21",
+      "stage_m": 20.559479166666666,
+      "water_height_m": 0.0477291666666666,
+      "tp": 349290,
+      "fp": 117003,
+      "fn": 217398,
+      "tn": 6404914,
+      "n_valid": 7088605,
+      "iou": 0.5108886909437158,
+      "precision": 0.7490783691798933,
+      "recall": 0.6163709130950364,
+      "f1": 0.6762757495055572
+    }
+  ],
+  "out_of_sample_checks": [
+    {
+      "date": "2026-09-16",
+      "stage_m": 21.536666666666665,
+      "water_height_m": 1.024916666666666,
+      "tp": 357556,
+      "fp": 782376,
+      "fn": 34621,
+      "tn": 4392457,
+      "n_valid": 5567010,
+      "iou": 0.30441878740252676,
+      "precision": 0.31366432383686044,
+      "recall": 0.9117209831275164,
+      "f1": 0.46675008109736316
+    },
+    {
+      "date": "2026-09-19",
+      "stage_m": 20.964791666666667,
+      "water_height_m": 0.45304166666666745,
+      "tp": 6785,
+      "fp": 15446,
+      "fn": 3435,
+      "tn": 119640,
+      "n_valid": 145306,
+      "iou": 0.2643575157796306,
+      "precision": 0.3052044442445234,
+      "recall": 0.663894324853229,
+      "f1": 0.4181689316199809
+    }
+  ],
+  "masks_written": [
+    "/content/hand_inundation/hand_inundation_2026-06-18.tif",
+    "/content/hand_inundation/hand_inundation_2026-06-30.tif",
+    "/content/hand_inundation/hand_inundation_2026-07-12.tif",
+    "/content/hand_inundation/hand_inundation_2026-07-24.tif",
+    "/content/hand_inundation/hand_inundation_2026-08-17.tif",
+    "/content/hand_inundation/hand_inundation_2026-08-29.tif",
+    "/content/hand_inundation/hand_inundation_2026-09-10.tif",
+    "/content/hand_inundation/hand_inundation_2026-09-22.tif"
+  ]
+}

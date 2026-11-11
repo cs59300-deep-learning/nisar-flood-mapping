@@ -1,0 +1,26 @@
+{
+  "checkpoint": "runs/unet_resnet50/seed0/best.pt",
+  "results": {
+    "test": {
+      "iou_water": 0.6819048918092934,
+      "iou_not_water": 0.9476637460420437,
+      "miou": 0.8147843189256685,
+      "iou_water_per_chip_mean": 0.4290583110058959,
+      "n_chips_scored": 87,
+      "precision": 0.815230363831874,
+      "recall": 0.8065602250262168,
+      "f1": 0.8108721190242102
+    },
+    "bolivia": {
+      "iou_water": 0.7046315733998542,
+      "iou_not_water": 0.9318374659008954,
+      "miou": 0.8182345196503749,
+      "iou_water_per_chip_mean": 0.46327313994274527,
+      "n_chips_scored": 15,
+      "precision": 0.7781116570867661,
+      "recall": 0.8818196208097365,
+      "f1": 0.8267259440636552
+    }
+  },
+  "published_test_iou": null
+}

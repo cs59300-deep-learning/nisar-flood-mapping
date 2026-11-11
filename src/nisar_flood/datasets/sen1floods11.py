@@ -2,11 +2,13 @@
 import csv
 from pathlib import Path
 
+import numpy as np
 import rasterio
 import torch
 from torch.utils.data import DataLoader, Dataset
 
-from .transforms import IGNORE_INDEX, preprocess_sar_db, remap_labels
+from .transforms import (IGNORE_INDEX, preprocess_sar_db, random_flip_rotate,
+                         remap_labels)
 
 BASE = "https://storage.googleapis.com/sen1floods11/v1.1"
 SPLITS = {
@@ -49,9 +51,13 @@ def download(root):
 
 
 class Sen1Floods11(Dataset):
-    def __init__(self, root, split):
+    def __init__(self, root, split, augment=False, seed=0):
         self.root = Path(root)
         self.rows = read_split(root, split)
+        self.augment = augment
+        # Per-dataset generator: augmentation stays reproducible from the run seed
+        # and does not disturb the global numpy random state.
+        self.rng = np.random.default_rng(seed)
 
     def __len__(self):
         return len(self.rows)
@@ -64,16 +70,18 @@ class Sen1Floods11(Dataset):
             y = f.read(1)                    # shape (H, W): -1 / 0 / 1
         x = preprocess_sar_db(x)
         y = remap_labels(y)
+        if self.augment:
+            x, y = random_flip_rotate(x, y, self.rng)
         return torch.from_numpy(x), torch.from_numpy(y)
 
 
-def make_loaders(root, batch_size=8, workers=2):
-    """One DataLoader per split. Only training is shuffled and batched."""
+def make_loaders(root, batch_size=8, workers=2, augment=False, seed=0):
+    """One DataLoader per split. Only training is shuffled, batched and augmented."""
     loaders = {}
     for split in SPLITS:
         training = split == "train"
         loaders[split] = DataLoader(
-            Sen1Floods11(root, split),
+            Sen1Floods11(root, split, augment=augment and training, seed=seed),
             batch_size=batch_size if training else 1,
             shuffle=training,
             num_workers=workers,
