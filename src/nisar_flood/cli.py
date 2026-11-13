@@ -5,8 +5,8 @@
     nisar-flood train    --config configs/unet_resnet50.yaml
     nisar-flood evaluate --checkpoint runs/unet_resnet50/seed0/best.pt
     nisar-flood make-chips   --granule data/raw/NISAR_..._001.h5 --granule-id N023_20260618
-    nisar-flood label-init   --chips data/nisar/chips --out data/labels/annotations
-    nisar-flood label-export --chips data/nisar/chips --annotations data/labels/annotations
+    nisar-flood label-init   --chips data/chips --out data/labels/annotations
+    nisar-flood label-export --chips data/chips --annotations data/labels/annotations
 """
 import argparse
 

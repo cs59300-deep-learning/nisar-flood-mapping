@@ -37,7 +37,7 @@ GeoJSON polygons will work.
 
 | What | Format | Where |
 |---|---|---|
-| Chip | GeoTIFF, 512x512, from #9 | `data/nisar/chips/{chip_id}.tif` |
+| Chip | GeoTIFF, 512x512, from #9 | `data/chips/{chip_id}.tif` |
 | Annotations (what you draw) | GeoJSON polygons | `data/labels/annotations/{chip_id}.geojson` |
 | Label raster (what the model reads) | GeoTIFF, int16, nodata -1 | `data/labels/masks/{chip_id}_label.tif` |
 | Index of finished labels | CSV | `data/labels/masks/labels_manifest.csv` |
@@ -110,7 +110,7 @@ values, not the dtype.
 1. Seed an annotation file for every chip:
 
    ```bash
-   nisar-flood label-init --chips data/nisar/chips \
+   nisar-flood label-init --chips data/chips \
                           --out data/labels/annotations \
                           --labeller varun
    ```
@@ -135,7 +135,7 @@ values, not the dtype.
 5. Burn them to label rasters:
 
    ```bash
-   nisar-flood label-export --chips data/nisar/chips \
+   nisar-flood label-export --chips data/chips \
                             --annotations data/labels/annotations \
                             --out data/labels/masks
    ```
