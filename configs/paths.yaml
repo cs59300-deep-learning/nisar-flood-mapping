@@ -5,8 +5,19 @@
 merit_hand:
   path: /path/to/merit_hand.tif
 
+jrc_seasonality:
+  # JRC GSW v1.4 seasonality tiles covering the AOI (70W_0N and 60W_0N)
+  paths:
+    - /path/to/seasonality_70W_0Nv1_4_2021.tif
+    - /path/to/seasonality_60W_0Nv1_4_2021.tif
+
+jers1_wetland:
+  # ORNL DAAC dual-season JERS-1 Amazon wetland mask (needs Earthdata login)
+  path: /path/to/jers1_wetland.tif
+
 nisar:
   data_root: /path/to/nisar-flood/raw_granules
 
 outputs:
   hand: outputs/groundtruth/hand
+  reference: outputs/groundtruth/reference
