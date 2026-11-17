@@ -1,33 +1,41 @@
 # Inter-annotator agreement — calibration round (#29)
 
-**Mean pairwise water IoU: 0.808** across 15 pairs.
-Three of four labellers; Yashada7 has not pushed labels, so this is provisional.
+**Mean pairwise water IoU: 0.827** across 30 pairs — all four labellers, five chips.
 
 Machine-readable results: [`calibration_agreement_report.json`](calibration_agreement_report.json)
 Script: [`../../scripts/calibration_agreement.py`](../../scripts/calibration_agreement.py)
 
 ## Result
 
-| Chip | Band | Mean | Nidhi/Pushan | Nidhi/Varun | Pushan/Varun |
-|---|---|---|---|---|---|
-| `N023_20260618_008000_013600` | high | 0.966 | 0.970 | 0.970 | 0.957 |
-| `N023_20260618_004400_010400` | mid | 0.867 | 0.839 | 0.915 | 0.846 |
-| `N023_20260618_007600_011200` | low | 0.826 | 0.772 | 0.881 | 0.827 |
-| `N023_20260618_012000_004400` | low | 0.714 | 0.721 | 0.665 | 0.755 |
-| `N023_20260618_006400_012400` | low | 0.665 | 0.631 | 0.726 | 0.638 |
+Water IoU per chip, for each of the six labeller pairs:
 
-Per labeller pair, averaged over the five chips:
+| Chip | Band | Mean | Nidhi/Yash | Nidhi/Push | Nidhi/Varun | Yash/Push | Yash/Varun | Push/Varun |
+|---|---|---|---|---|---|---|---|---|
+| `N023_20260618_008000_013600` | high | **0.970** | 0.979 | 0.970 | 0.970 | 0.971 | 0.971 | 0.957 |
+| `N023_20260618_004400_010400` | mid | **0.882** | 0.914 | 0.839 | 0.915 | 0.865 | 0.914 | 0.846 |
+| `N023_20260618_007600_011200` | low | **0.849** | 0.855 | 0.772 | 0.881 | 0.865 | 0.896 | 0.827 |
+| `N023_20260618_012000_004400` | low | **0.738** | 0.819 | 0.721 | 0.665 | 0.746 | 0.722 | 0.755 |
+| `N023_20260618_006400_012400` | low | **0.695** | 0.759 | 0.631 | 0.726 | 0.662 | 0.754 | 0.638 |
+
+Averaged over the five chips:
 
 | Pair | Mean water IoU |
 |---|---|
-| NidhiMusale / varunteja99 | 0.873 |
+| NidhiMusale / Yashada7 | 0.865 |
+| Yashada7 / varunteja99 | 0.851 |
+| NidhiMusale / varunteja99 | 0.831 |
+| Yashada7 / pushanverma | 0.822 |
 | pushanverma / varunteja99 | 0.805 |
-| NidhiMusale / pushanverma | 0.803 |
+| NidhiMusale / pushanverma | 0.787 |
 
 Agreement falls as open water gets scarcer — 0.97 on the high-water chip against
-0.67 on the driest. Thin channels and mixed-pixel edges are where labellers
+0.70 on the driest. Thin channels and mixed-pixel edges are where labellers
 diverge, which is the expected shape for this task. No labeller is an outlier:
-the three pair means span 0.070.
+the six pair means span 0.078.
+
+**This figure is the ceiling for any model scored on these labels.** A model
+cannot meaningfully exceed the rate at which the people who made the labels
+agree with each other.
 
 ## How it was computed
 
@@ -53,21 +61,31 @@ chip is dry land, which is why IoU is the figure quoted.
 This measures the water class only. Class `2` (suspected flooded vegetation) is
 flagged and never scored, so agreement on it is not part of this number.
 
+## Sources
+
+| Labeller | Ref | Commit |
+|---|---|---|
+| varunteja99 | working tree | `840753e` |
+| pushanverma | `origin/feature/labelling-pushanverma` | `a721662` |
+| NidhiMusale | `origin/Nidhi-handlabelled-chips` | `8966f36` |
+| Yashada7 | `origin/Yashada7/hand-labelled-chips` | `bb1c3bb` |
+
 ## Reproducing
 
 ```
 python scripts/calibration_agreement.py --out docs/evidence/calibration_agreement_report.json
 ```
 
-Reads directly from git refs, so no branch needs checking out. Sources are
-listed in `SOURCES` at the top of the script, and the commit each was read from
-is recorded in the report's `sources` block.
+Reads directly from git refs, so no branch needs checking out.
 
-## Known issues
+## Caveats
 
-**Yashada7 has pushed no labels.** `Yashada7/hand-labelled-chips` contains one
-commit ahead of main, a merge, and no annotation files. Until she pushes, this
-figure covers three labellers and #29 is not complete.
+**Independence is not guaranteed for every labeller.** varunteja99's annotations
+were merged to `main` before the other three finished drawing. Anyone who pulled
+`main` after that point could have seen them, which would inflate their pair
+scores. Yashada7 drew hers last and scores highest against everyone (0.865 and
+0.851 on her top two pairs), so this is worth confirming with each labeller
+before the figure is published, and stating in the write-up either way.
 
 **Nidhi's polygons for `N023_20260618_012000_004400` are not on her branch
 head.** Commit `8966f36` deleted `N023_20260618_012000_004400_new.geojson` and
@@ -86,12 +104,6 @@ git rm data/labels/annotations/N023_20260618_012000_004400_new.qmd
 `NidhiMusale` GitHub handle used everywhere else. Worth normalising before the
 dataset is released.
 
-## Updating
-
-When Yashada pushes, re-run the script. It picks her branch up automatically
-from `SOURCES`; nothing needs editing unless her ref name changes. Then update
-the headline figure and the table here, and remove her from Known issues.
-
-Expect the number to move: she has not seen anyone else's labels, so her five
-are genuinely independent, whereas a labeller who pulled `main` after the
-annotations landed there would not be.
+**Five chips is a small sample.** Each pair mean rests on five numbers, so the
+0.078 spread between pairs should not be read as a real difference in labeller
+skill.
