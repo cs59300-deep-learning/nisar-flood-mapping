@@ -1,5 +1,9 @@
 # Labelling tooling
 
+> For the short, per-polygon version to keep open while you work, see
+> [`labelling_checklist.md`](labelling_checklist.md). This document is the
+> full reference for the tool and the file formats.
+
 Issue #28. `docs/labelling_protocol.md` defines *what* the four class values
 mean; this file defines the tool, the file formats and the burn rules, so that
 four people drawing on four laptops produce the same thing.
@@ -33,7 +37,7 @@ GeoJSON polygons will work.
 
 | What | Format | Where |
 |---|---|---|
-| Chip | GeoTIFF, 512x512, from #9 | `data/nisar/chips/{chip_id}.tif` |
+| Chip | GeoTIFF, 512x512, from #9 | `data/chips/{chip_id}.tif` |
 | Annotations (what you draw) | GeoJSON polygons | `data/labels/annotations/{chip_id}.geojson` |
 | Label raster (what the model reads) | GeoTIFF, int16, nodata -1 | `data/labels/masks/{chip_id}_label.tif` |
 | Index of finished labels | CSV | `data/labels/masks/labels_manifest.csv` |
@@ -106,7 +110,7 @@ values, not the dtype.
 1. Seed an annotation file for every chip:
 
    ```bash
-   nisar-flood label-init --chips data/nisar/chips \
+   nisar-flood label-init --chips data/chips \
                           --out data/labels/annotations \
                           --labeller varun
    ```
@@ -125,13 +129,13 @@ values, not the dtype.
    same every session: `Layer Properties > Symbology`, min -40 dB, max 0 dB.
 
 4. Toggle editing on the GeoJSON layer (the pencil icon), draw your polygons,
-   and fill in `class`, `labeller`, `labelled_on`, `evidence_tier` and `notes`
-   for each. Save.
+   and fill in `class`, `labeller`, `labelled_on` and `evidence_tier` for
+   each. `notes` is optional. Save.
 
 5. Burn them to label rasters:
 
    ```bash
-   nisar-flood label-export --chips data/nisar/chips \
+   nisar-flood label-export --chips data/chips \
                             --annotations data/labels/annotations \
                             --out data/labels/masks
    ```

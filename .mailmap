@@ -1,0 +1,29 @@
+# Canonical author identities.
+#
+# Four people committed under nine different names and addresses, because git
+# identities were not configured consistently across machines and because one
+# member's assistant tooling wrote commits under its own name. This file maps
+# every variant onto one identity per person, so `git shortlog -sne`, `git log`
+# and the GitHub contributors graph report contribution per person rather than
+# per laptop.
+#
+# It renames nothing in history; it is a lookup applied when authorship is read.
+# Format: Canonical Name <canonical-email> <commit-email>
+
+Varun Teja Chundru <43376252+varunteja99@users.noreply.github.com>
+Varun Teja Chundru <43376252+varunteja99@users.noreply.github.com> <varun.chundru@gmail.com>
+
+# yashadatembe07@gmail.com covers "Yashada7" and "Yashada Tembe".
+# noreply@anthropic.com covers the commits her assistant tooling authored and
+# co-authored on the #15 and #36 branches (pull requests 59 and 61).
+Yashada Ajit Tembe <118554169+Yashada7@users.noreply.github.com>
+Yashada Ajit Tembe <118554169+Yashada7@users.noreply.github.com> <yashadatembe07@gmail.com>
+Yashada Ajit Tembe <118554169+Yashada7@users.noreply.github.com> <noreply@anthropic.com>
+
+Pushan Verma <53814344+pushanverma@users.noreply.github.com>
+
+Nidhi Musale <72083923+NidhiMusale@users.noreply.github.com>
+
+# Two commits from the pre-history of the repository were authored by
+# "unknown <musan01@pfw.edu>". Confirm whose address that is before mapping it:
+# Nidhi Musale <72083923+NidhiMusale@users.noreply.github.com> <musan01@pfw.edu>
