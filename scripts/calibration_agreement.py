@@ -44,17 +44,10 @@ SOURCES = {
 }
 
 # Chips where a labeller's polygons live under a non-standard filename.
-FILENAME_OVERRIDES = {
-    ("NidhiMusale", "N023_20260618_012000_004400"): "N023_20260618_012000_004400_new.geojson",
-}
+FILENAME_OVERRIDES: dict[tuple[str, str], str] = {}
 
-# Chips read from a commit other than the labeller's branch head. Commit
-# 8966f36 on Nidhi-handlabelled-chips deleted her polygons for this chip and
-# left an empty .geojson behind, so the work is read from the commit before it.
-# Remove this entry once the file is restored on her branch.
-REF_OVERRIDES = {
-    ("NidhiMusale", "N023_20260618_012000_004400"): "2b3e248",
-}
+# Chips read from a commit other than the labeller's branch head.
+REF_OVERRIDES: dict[tuple[str, str], str] = {}
 
 ANNOTATION_DIR = "data/labels/annotations"
 CHIP_DIR = "data/chips"

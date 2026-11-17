@@ -65,9 +65,9 @@ flagged and never scored, so agreement on it is not part of this number.
 
 | Labeller | Ref | Commit |
 |---|---|---|
-| varunteja99 | working tree | `840753e` |
+| varunteja99 | working tree | `affec81` |
 | pushanverma | `origin/feature/labelling-pushanverma` | `a721662` |
-| NidhiMusale | `origin/Nidhi-handlabelled-chips` | `8966f36` |
+| NidhiMusale | `origin/Nidhi-handlabelled-chips` | `06835b7` |
 | Yashada7 | `origin/Yashada7/hand-labelled-chips` | `bb1c3bb` |
 
 ## Reproducing
@@ -87,22 +87,12 @@ scores. Yashada7 drew hers last and scores highest against everyone (0.865 and
 0.851 on her top two pairs), so this is worth confirming with each labeller
 before the figure is published, and stating in the write-up either way.
 
-**Nidhi's polygons for `N023_20260618_012000_004400` are not on her branch
-head.** Commit `8966f36` deleted `N023_20260618_012000_004400_new.geojson` and
-left an empty `N023_20260618_012000_004400.geojson` plus an orphaned `.qmd`
-beside it. The 23 polygons survive in `2b3e248`, and the script reads them from
-there via `REF_OVERRIDES`. To restore and drop the override:
-
-```
-git checkout 2b3e248 -- data/labels/annotations/N023_20260618_012000_004400_new.geojson
-git mv data/labels/annotations/N023_20260618_012000_004400_new.geojson \
-       data/labels/annotations/N023_20260618_012000_004400.geojson
-git rm data/labels/annotations/N023_20260618_012000_004400_new.qmd
-```
-
-**Nidhi's `labeller` field reads `nidhimusale`**, lower case, against the
-`NidhiMusale` GitHub handle used everywhere else. Worth normalising before the
-dataset is released.
+Two earlier problems on `Nidhi-handlabelled-chips` were fixed in `06835b7` and
+no longer affect this run. Commit `8966f36` had deleted her 23 polygons for
+`N023_20260618_012000_004400`; they are back under the standard filename and
+match the originals in `2b3e248` geometry for geometry. Her `labeller` field had
+read `nidhimusale` in lower case; all 281 of her features now read `NidhiMusale`.
+Every labeller is read from a branch head, so the script carries no overrides.
 
 **Five chips is a small sample.** Each pair mean rests on five numbers, so the
 0.078 spread between pairs should not be read as a real difference in labeller

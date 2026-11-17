@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-17T19:56:48+00:00",
+  "generated_utc": "2026-11-17T21:42:37+00:00",
   "issue": 29,
   "headline": {
     "mean_pairwise_water_iou": 0.8269,
@@ -15,7 +15,7 @@
   "sources": {
     "varunteja99": {
       "ref": ".",
-      "commit": "840753e"
+      "commit": "affec81"
     },
     "pushanverma": {
       "ref": "origin/feature/labelling-pushanverma",
@@ -23,7 +23,7 @@
     },
     "NidhiMusale": {
       "ref": "origin/Nidhi-handlabelled-chips",
-      "commit": "8966f36"
+      "commit": "06835b7"
     },
     "Yashada7": {
       "ref": "origin/Yashada7/hand-labelled-chips",
@@ -31,9 +31,7 @@
     }
   },
   "labellers_with_nothing_drawn": {},
-  "ref_overrides": {
-    "NidhiMusale|N023_20260618_012000_004400": "2b3e248"
-  },
+  "ref_overrides": {},
   "per_pair_mean": {
     "NidhiMusale|Yashada7": 0.8653,
     "NidhiMusale|pushanverma": 0.7867,
