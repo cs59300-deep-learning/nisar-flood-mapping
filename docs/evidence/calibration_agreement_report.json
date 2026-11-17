@@ -1,20 +1,21 @@
 {
-  "generated_utc": "2026-11-17T19:34:25+00:00",
+  "generated_utc": "2026-11-17T19:56:48+00:00",
   "issue": 29,
   "headline": {
-    "mean_pairwise_water_iou": 0.8075,
-    "pair_count": 15,
+    "mean_pairwise_water_iou": 0.8269,
+    "pair_count": 30,
     "labellers": [
       "NidhiMusale",
+      "Yashada7",
       "pushanverma",
       "varunteja99"
     ],
-    "complete": false
+    "complete": true
   },
   "sources": {
     "varunteja99": {
       "ref": ".",
-      "commit": "c83d13e"
+      "commit": "840753e"
     },
     "pushanverma": {
       "ref": "origin/feature/labelling-pushanverma",
@@ -26,27 +27,32 @@
     },
     "Yashada7": {
       "ref": "origin/Yashada7/hand-labelled-chips",
-      "commit": "6fd734d"
+      "commit": "bb1c3bb"
     }
   },
-  "labellers_with_nothing_drawn": {
-    "Yashada7": [
-      "N023_20260618_008000_013600",
-      "N023_20260618_004400_010400",
-      "N023_20260618_006400_012400",
-      "N023_20260618_007600_011200",
-      "N023_20260618_012000_004400"
-    ]
-  },
+  "labellers_with_nothing_drawn": {},
   "ref_overrides": {
     "NidhiMusale|N023_20260618_012000_004400": "2b3e248"
   },
   "per_pair_mean": {
+    "NidhiMusale|Yashada7": 0.8653,
     "NidhiMusale|pushanverma": 0.7867,
     "NidhiMusale|varunteja99": 0.8312,
+    "Yashada7|pushanverma": 0.8221,
+    "Yashada7|varunteja99": 0.8514,
     "pushanverma|varunteja99": 0.8047
   },
   "per_chip": [
+    {
+      "chip_id": "N023_20260618_008000_013600",
+      "labellers": [
+        "NidhiMusale",
+        "Yashada7"
+      ],
+      "water_iou": 0.9793383557156895,
+      "pixel_agreement": 0.9801088721230063,
+      "scored_px": 261775
+    },
     {
       "chip_id": "N023_20260618_008000_013600",
       "labellers": [
@@ -70,12 +76,42 @@
     {
       "chip_id": "N023_20260618_008000_013600",
       "labellers": [
+        "Yashada7",
+        "pushanverma"
+      ],
+      "water_iou": 0.9713325578389557,
+      "pixel_agreement": 0.9606883558496462,
+      "scored_px": 261144
+    },
+    {
+      "chip_id": "N023_20260618_008000_013600",
+      "labellers": [
+        "Yashada7",
+        "varunteja99"
+      ],
+      "water_iou": 0.9711839073707844,
+      "pixel_agreement": 0.9727287292480469,
+      "scored_px": 262144
+    },
+    {
+      "chip_id": "N023_20260618_008000_013600",
+      "labellers": [
         "pushanverma",
         "varunteja99"
       ],
       "water_iou": 0.9574393679370528,
       "pixel_agreement": 0.9499854486413626,
       "scored_px": 261144
+    },
+    {
+      "chip_id": "N023_20260618_004400_010400",
+      "labellers": [
+        "NidhiMusale",
+        "Yashada7"
+      ],
+      "water_iou": 0.9138240574506283,
+      "pixel_agreement": 0.9267539978027344,
+      "scored_px": 262144
     },
     {
       "chip_id": "N023_20260618_004400_010400",
@@ -100,11 +136,41 @@
     {
       "chip_id": "N023_20260618_004400_010400",
       "labellers": [
+        "Yashada7",
+        "pushanverma"
+      ],
+      "water_iou": 0.8653619933696931,
+      "pixel_agreement": 0.8955612182617188,
+      "scored_px": 262144
+    },
+    {
+      "chip_id": "N023_20260618_004400_010400",
+      "labellers": [
+        "Yashada7",
+        "varunteja99"
+      ],
+      "water_iou": 0.9136416320908435,
+      "pixel_agreement": 0.9307632446289062,
+      "scored_px": 262144
+    },
+    {
+      "chip_id": "N023_20260618_004400_010400",
+      "labellers": [
         "pushanverma",
         "varunteja99"
       ],
       "water_iou": 0.846340601422886,
       "pixel_agreement": 0.8913993835449219,
+      "scored_px": 262144
+    },
+    {
+      "chip_id": "N023_20260618_006400_012400",
+      "labellers": [
+        "NidhiMusale",
+        "Yashada7"
+      ],
+      "water_iou": 0.7590013924806047,
+      "pixel_agreement": 0.9490776062011719,
       "scored_px": 262144
     },
     {
@@ -130,12 +196,42 @@
     {
       "chip_id": "N023_20260618_006400_012400",
       "labellers": [
+        "Yashada7",
+        "pushanverma"
+      ],
+      "water_iou": 0.6624981279017523,
+      "pixel_agreement": 0.9299632839565853,
+      "scored_px": 260649
+    },
+    {
+      "chip_id": "N023_20260618_006400_012400",
+      "labellers": [
+        "Yashada7",
+        "varunteja99"
+      ],
+      "water_iou": 0.7535092085614734,
+      "pixel_agreement": 0.9487876892089844,
+      "scored_px": 262144
+    },
+    {
+      "chip_id": "N023_20260618_006400_012400",
+      "labellers": [
         "pushanverma",
         "varunteja99"
       ],
       "water_iou": 0.6375523012552301,
       "pixel_agreement": 0.9326834171625442,
       "scored_px": 260649
+    },
+    {
+      "chip_id": "N023_20260618_007600_011200",
+      "labellers": [
+        "NidhiMusale",
+        "Yashada7"
+      ],
+      "water_iou": 0.8552190213101816,
+      "pixel_agreement": 0.9685592651367188,
+      "scored_px": 262144
     },
     {
       "chip_id": "N023_20260618_007600_011200",
@@ -160,12 +256,42 @@
     {
       "chip_id": "N023_20260618_007600_011200",
       "labellers": [
+        "Yashada7",
+        "pushanverma"
+      ],
+      "water_iou": 0.8649389825860414,
+      "pixel_agreement": 0.9614176384144131,
+      "scored_px": 261985
+    },
+    {
+      "chip_id": "N023_20260618_007600_011200",
+      "labellers": [
+        "Yashada7",
+        "varunteja99"
+      ],
+      "water_iou": 0.8962250185048113,
+      "pixel_agreement": 0.9689483642578125,
+      "scored_px": 262144
+    },
+    {
+      "chip_id": "N023_20260618_007600_011200",
+      "labellers": [
         "pushanverma",
         "varunteja99"
       ],
       "water_iou": 0.8267556988256966,
       "pixel_agreement": 0.9496879592343073,
       "scored_px": 261985
+    },
+    {
+      "chip_id": "N023_20260618_012000_004400",
+      "labellers": [
+        "NidhiMusale",
+        "Yashada7"
+      ],
+      "water_iou": 0.8192073354648006,
+      "pixel_agreement": 0.7709274291992188,
+      "scored_px": 262144
     },
     {
       "chip_id": "N023_20260618_012000_004400",
@@ -185,6 +311,26 @@
       ],
       "water_iou": 0.6651595604857788,
       "pixel_agreement": 0.34815216064453125,
+      "scored_px": 262144
+    },
+    {
+      "chip_id": "N023_20260618_012000_004400",
+      "labellers": [
+        "Yashada7",
+        "pushanverma"
+      ],
+      "water_iou": 0.7461780104712041,
+      "pixel_agreement": 0.3008486511534932,
+      "scored_px": 220114
+    },
+    {
+      "chip_id": "N023_20260618_012000_004400",
+      "labellers": [
+        "Yashada7",
+        "varunteja99"
+      ],
+      "water_iou": 0.722206972275597,
+      "pixel_agreement": 0.3486747741699219,
       "scored_px": 262144
     },
     {
