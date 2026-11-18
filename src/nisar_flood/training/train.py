@@ -8,7 +8,8 @@ Writes into the config's output directory:
     history.csv      per-epoch loss and validation metrics
     curves.png       loss and IoU curves
     best.pt          checkpoint with the best validation headline metric
-    last.pt          final-epoch checkpoint, for resuming
+    last.pt          full training state (model, optimizer, history), rewritten every
+                     `save_every` epochs, for resuming with --resume
     summary.json     best epoch, metrics and the config used
 """
 import argparse
@@ -85,13 +86,22 @@ def run_epoch(model, loader, device, optimizer=None, scaler=None, cfg=None, desc
 
     Returns (mean loss, metrics dict). Metrics are only meaningful for evaluation
     passes, where predictions are not moving under the optimiser.
+
+    Gradient accumulation: with cfg["accum_steps"] = k, gradients from k
+    consecutive batches are summed before one optimizer step, so a batch size that
+    fits in memory can stand in for a larger one (batch 4 x 2 behaves like 8).
+    Each batch's loss is divided by the size of its group, so the summed gradient
+    is the mean over the group. A short final group is divided by its own size.
+    The default, k = 1, is a step after every batch.
     """
     training = optimizer is not None
     model.train(training)
     meter, total, n = IoUMeter(), 0.0, 0
     dtype = amp_dtype(device, bool(cfg.get("amp", False)))
+    accum = max(int(cfg.get("accum_steps", 1)), 1)
+    n_batches = len(loader)
 
-    for x, y in tqdm(loader, desc=desc, leave=False):
+    for i, (x, y) in enumerate(tqdm(loader, desc=desc, leave=False)):
         x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
         with torch.set_grad_enabled(training):
             with torch.autocast("cuda", dtype=dtype or torch.float16,
@@ -99,19 +109,25 @@ def run_epoch(model, loader, device, optimizer=None, scaler=None, cfg=None, desc
                 logits = model(x)
                 loss = masked_ce_dice_loss(logits, y, dice_weight=cfg.get("dice_weight", 1.0))
         if training:
-            optimizer.zero_grad(set_to_none=True)
+            if i % accum == 0:                               # first batch of a group
+                optimizer.zero_grad(set_to_none=True)
+            group_size = min(accum, n_batches - (i // accum) * accum)
+            step_now = (i + 1) % accum == 0 or i == n_batches - 1
+            scaled_loss = loss / group_size
             if scaler is not None and scaler.is_enabled():   # float16 only
-                scaler.scale(loss).backward()
-                if cfg.get("grad_clip"):
-                    scaler.unscale_(optimizer)
-                    torch.nn.utils.clip_grad_norm_(model.parameters(), cfg["grad_clip"])
-                scaler.step(optimizer)
-                scaler.update()
+                scaler.scale(scaled_loss).backward()
+                if step_now:
+                    if cfg.get("grad_clip"):
+                        scaler.unscale_(optimizer)
+                        torch.nn.utils.clip_grad_norm_(model.parameters(), cfg["grad_clip"])
+                    scaler.step(optimizer)
+                    scaler.update()
             else:
-                loss.backward()
-                if cfg.get("grad_clip"):
-                    torch.nn.utils.clip_grad_norm_(model.parameters(), cfg["grad_clip"])
-                optimizer.step()
+                scaled_loss.backward()
+                if step_now:
+                    if cfg.get("grad_clip"):
+                        torch.nn.utils.clip_grad_norm_(model.parameters(), cfg["grad_clip"])
+                    optimizer.step()
         else:
             # Scored chip by chip. The headline metric is an image-wise mean,
             # so pooling a batch into one update would compute something else.
@@ -144,7 +160,20 @@ def plot_curves(history, path):
     plt.close(fig)
 
 
-def train(config_path, overrides=None):
+def save_checkpoint(path, model, optimizer, scaler, cfg, seed, epoch, history,
+                    best, best_epoch, started):
+    """Full training state. Written to a temporary file first, then renamed, so a
+    disconnect in the middle of a write cannot leave a corrupt last.pt behind."""
+    state = {"model": model.state_dict(), "optimizer": optimizer.state_dict(),
+             "scaler": scaler.state_dict() if scaler.is_enabled() else None,
+             "config": cfg, "seed": seed, "epoch": epoch, "history": history,
+             "best": best, "best_epoch": best_epoch, "elapsed": time.time() - started}
+    tmp = path.with_suffix(".tmp")
+    torch.save(state, tmp)
+    tmp.replace(path)
+
+
+def train(config_path, overrides=None, resume=False):
     cfg = yaml.safe_load(Path(config_path).read_text())
     for key, value in (overrides or {}).items():      # e.g. --seed, --epochs
         section, _, field = key.partition(".")
@@ -168,15 +197,36 @@ def train(config_path, overrides=None):
     scaler = torch.amp.GradScaler("cuda", enabled=dtype is torch.float16)
 
     precision = str(dtype).replace("torch.", "") if dtype else "float32"
+    accum = max(int(tcfg.get("accum_steps", 1)), 1)
     print(f"{cfg['name']} | {device} | {precision} | "
           f"{count_parameters(model):,} trainable params | seed {seed}")
+    print(f"batch {dcfg['batch_size']} x accumulation {accum} = effective batch "
+          f"{dcfg['batch_size'] * accum}")
     print(f"train {len(loaders['train'].dataset)} chips, val {len(loaders['val'].dataset)} chips")
 
     select_on = cfg["eval"]["select_on"]
     val_split = cfg["eval"].get("split", "val")
-    history, best, best_epoch, started = [], -float("inf"), -1, time.time()
+    history, best, best_epoch, start_epoch, elapsed = [], -float("inf"), -1, 0, 0.0
 
-    for epoch in range(tcfg["epochs"]):
+    if resume and (out / "last.pt").exists():
+        ckpt = torch.load(out / "last.pt", map_location=device, weights_only=False)
+        if "optimizer" not in ckpt:
+            raise SystemExit("last.pt has no optimizer state (written by an older train.py); "
+                             "it cannot be resumed.")
+        if ckpt["config"] != cfg:
+            raise SystemExit("The config differs from the one stored in last.pt. Resuming "
+                             "with different settings would make the run unreproducible.")
+        model.load_state_dict(ckpt["model"])
+        optimizer.load_state_dict(ckpt["optimizer"])
+        if scaler.is_enabled() and ckpt.get("scaler"):
+            scaler.load_state_dict(ckpt["scaler"])
+        history, best, best_epoch = ckpt["history"], ckpt["best"], ckpt["best_epoch"]
+        start_epoch, elapsed = ckpt["epoch"], ckpt.get("elapsed", 0.0)
+        print(f"resuming after epoch {start_epoch} (best so far {best:.4f} at epoch {best_epoch})")
+    started = time.time() - elapsed
+    save_every = max(int(tcfg.get("save_every", 1)), 1)
+
+    for epoch in range(start_epoch, tcfg["epochs"]):
         for group in optimizer.param_groups:
             group["lr"] = tcfg["lr"] * lr_at(epoch, tcfg)
 
@@ -202,8 +252,12 @@ def train(config_path, overrides=None):
             writer.writerows(history)
         plot_curves(history, out / "curves.png")
 
-    torch.save({"model": model.state_dict(), "config": cfg, "seed": seed,
-                "epoch": tcfg["epochs"]}, out / "last.pt")
+        if (epoch + 1) % save_every == 0 and epoch + 1 < tcfg["epochs"]:
+            save_checkpoint(out / "last.pt", model, optimizer, scaler, cfg, seed,
+                            epoch + 1, history, best, best_epoch, started)
+
+    save_checkpoint(out / "last.pt", model, optimizer, scaler, cfg, seed,
+                    tcfg["epochs"], history, best, best_epoch, started)
     summary = {"name": cfg["name"], "seed": seed, "best_epoch": best_epoch,
                f"best_{select_on}": best, "minutes": round((time.time() - started) / 60, 1),
                "device": str(device), "config": cfg}
@@ -217,10 +271,12 @@ def main():
     p.add_argument("--config", required=True)
     p.add_argument("--seed", type=int, help="override train.seed")
     p.add_argument("--epochs", type=int, help="override train.epochs")
+    p.add_argument("--resume", action="store_true",
+                   help="continue from last.pt in the output directory, if it exists")
     args = p.parse_args()
     overrides = {f"train.{k}": v for k, v in [("seed", args.seed), ("epochs", args.epochs)]
                  if v is not None}
-    train(args.config, overrides)
+    train(args.config, overrides, resume=args.resume)
 
 
 if __name__ == "__main__":
