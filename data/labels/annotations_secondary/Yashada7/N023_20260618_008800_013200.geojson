@@ -1,8 +1,5 @@
-{
-"type": "FeatureCollection",
-"name": "N023_20260618_008800_013200",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+{"type": "FeatureCollection", "name": "N023_20260618_008800_013200", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}},
 "features": [
-{"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [[[-60.26491442682056, -3.244074817996111], [-60.2630731220688, -3.244069812994792], [-60.26307810189305, -3.2422191103651734], [-60.26491940330475, -3.2422241125053377], [-60.26491442682056, -3.244074817996111]]]}, "properties": {"chip_id": "N023_20260618_008800_013200", "class": null, "labeller": "Yashada7", "labelled_on": "", "evidence_tier": null, "notes": "placeholder so QGIS sees a polygon layer; ignored on export"}}
+
 ]
 }
