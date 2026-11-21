@@ -1,0 +1,13 @@
+{
+  "method": "Each calibration chip needs one primary label for the gold set. Four chips were dealt one per labeller so no one's style dominates; the fifth was drawn at random from the four. Both draws come from Python's random.Random(seed), so the assignment is reproducible and was not chosen after seeing the labels.",
+  "seed": 0,
+  "random_fifth_chip": "N023_20260618_008000_013600",
+  "assignment": {
+    "N023_20260618_004400_010400": "pushanverma",
+    "N023_20260618_006400_012400": "Yashada7",
+    "N023_20260618_007600_011200": "NidhiMusale",
+    "N023_20260618_008000_013600": "varunteja99",
+    "N023_20260618_012000_004400": "varunteja99"
+  },
+  "all_versions_kept_in": "data/labels/annotations_secondary/<labeller>/"
+}
