@@ -33,10 +33,10 @@ the value.
 
 Weights are not in git (`*.pt` is gitignored; see `docs/data_sources.md`):
 
-**https://huggingface.co/varunchundru/unet-resnet50-sen1floods11** (private)
+**https://huggingface.co/nisar-flood-mapping/unet-resnet50-sen1floods11** (private)
 
 ```bash
-hf download varunchundru/unet-resnet50-sen1floods11 seed0/best.pt --local-dir runs/unet_resnet50
+hf download nisar-flood-mapping/unet-resnet50-sen1floods11 seed0/best.pt --local-dir runs/unet_resnet50
 PYTHONPATH=src python -m nisar_flood.cli evaluate --checkpoint runs/unet_resnet50/seed0/best.pt
 ```
 
