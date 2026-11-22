@@ -1,7 +1,5 @@
 import numpy as np
 import pytest
-<<<<<<< HEAD
-<<<<<<< HEAD
 import rasterio
 from rasterio.transform import from_origin
 
@@ -10,10 +8,18 @@ from nisar_flood.groundtruth.reference_layers import (
     CLASS_LAND,
     CLASS_NODATA,
     CLASS_PERMANENT_WATER,
+    NOT_WATER,
+    UNKNOWN,
+    WATER,
     align_categorical_to_reference,
     build_reference_layers,
     clip_raster_to_aoi,
+    download_with_session,
     jrc_permanent_water,
+    list_layer_suffixes,
+    mosaic_tiles_to_grid,
+    recode,
+    select_layer_links,
     separate_permanent_and_flood_water,
     unique_values,
 )
@@ -111,20 +117,6 @@ def test_build_reference_layers_end_to_end(tmp_path):
         vals = set(np.unique(s.read(1)).tolist())
     assert vals <= {CLASS_LAND, CLASS_PERMANENT_WATER, CLASS_FLOOD_WATER, CLASS_NODATA}
     assert CLASS_PERMANENT_WATER in vals or CLASS_FLOOD_WATER in vals
-=======
-=======
->>>>>>> b79a53e4a063078c10b56f1e69dc2e5f56d301a2
-
-rasterio = pytest.importorskip("rasterio")
-from rasterio.transform import from_origin
-
-from nisar_flood.groundtruth.reference_layers import (
-    NOT_WATER,
-    UNKNOWN,
-    WATER,
-    mosaic_tiles_to_grid,
-    recode,
-)
 
 
 def write_tif(path, array, crs, transform, nodata=None):
@@ -226,12 +218,6 @@ def test_mosaic_needs_at_least_one_tile(tmp_path, grid):
 
 # --- CMR search helpers (the network call itself is not tested) -----------------
 
-from nisar_flood.groundtruth.reference_layers import (
-    download_with_session,
-    list_layer_suffixes,
-    select_layer_links,
-)
-
 BASE = "https://archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-protected/OPERA_L3_DSWX-S1_V1/"
 REL = "http://esipfed.org/ns/fedsearch/1.1/data#"
 
@@ -304,7 +290,3 @@ def test_download_explains_a_403(tmp_path):
     with pytest.raises(PermissionError, match="accept the PO.DAAC/ASF data terms"):
         download_with_session(FakeSession(FakeResponse(403)), BASE + "x_B01_WTR.tif", tmp_path)
     assert not list(tmp_path.iterdir())  # nothing half-written is left behind
-<<<<<<< HEAD
->>>>>>> e1bf92b529b3ed2cf57c63eb31a132101bfdae04
-=======
->>>>>>> b79a53e4a063078c10b56f1e69dc2e5f56d301a2

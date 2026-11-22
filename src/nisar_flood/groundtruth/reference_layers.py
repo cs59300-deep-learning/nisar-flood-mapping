@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 """Published reference layers for ground truth (Ticket #15).
 
 Two external products are used as an independent cross-check of the
@@ -14,12 +12,20 @@ HAND + gauge labels:
 
 Categorical rasters are never interpolated: clipping keeps source values and
 alignment uses nearest-neighbour resampling.
+
+This module also builds the independent water mask the stage calibration scores against
+(#14). Products such as OPERA DSWx arrive as many MGRS tiles across several UTM zones, with
+class codes that include cloud, snow and fill. ``recode`` and ``mosaic_tiles_to_grid`` turn a
+set of tiles into one mask on the HAND grid, where 1 is water, 0 is not water and 255 is
+unknown. Unknown is never counted as water or as dry; the calibration drops those pixels. An
+unlisted class code becomes unknown and is reported rather than guessed, because reading, say,
+"inundated vegetation" as open water would bias ``stage0``.
 """
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Sequence
 from pathlib import Path
-from typing import Iterable, Sequence
 
 import numpy as np
 import rasterio
@@ -282,30 +288,7 @@ def build_reference_layers(
         "jers1_aligned": jers_grid,
         "separation": sep,
     }
-=======
-=======
->>>>>>> b79a53e4a063078c10b56f1e69dc2e5f56d301a2
-"""Independent water-extent reference layers, put on the HAND grid (#14, #15).
 
-The calibration in ``stage_calibration`` needs a binary water mask that is independent of both NISAR
-and HAND, on the same pixel grid as HAND. Products such as OPERA DSWx come as many MGRS tiles in
-several UTM zones, with class codes that include cloud, snow and fill values. This module turns a
-set of such tiles into one mask with a fixed convention:
-
-    1   = water
-    0   = not water
-    255 = unknown (outside every tile, fill, cloud, or any class code we were not told how to read)
-
-Unknown is never counted as water *or* as dry: the calibration drops those pixels from every metric.
-A class code that is not listed is treated as unknown and reported, never silently guessed, because
-guessing wrong here (for example reading "inundated vegetation" as open water) would bias ``stage0``.
-"""
-from __future__ import annotations
-
-from collections.abc import Iterable
-from pathlib import Path
-
-import numpy as np
 
 WATER = 1
 NOT_WATER = 0
@@ -491,7 +474,3 @@ def mosaic_tiles_to_grid(
         dst.write(dest, 1)
     summary["out_path"] = str(out_path)
     return summary
-<<<<<<< HEAD
->>>>>>> e1bf92b529b3ed2cf57c63eb31a132101bfdae04
-=======
->>>>>>> b79a53e4a063078c10b56f1e69dc2e5f56d301a2
