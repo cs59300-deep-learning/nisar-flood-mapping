@@ -26,6 +26,8 @@ def main():
     tr.add_argument("--config", required=True)
     tr.add_argument("--seed", type=int)
     tr.add_argument("--epochs", type=int)
+    tr.add_argument("--resume", action="store_true",
+                    help="continue from last.pt in the run's output directory")
 
     ev = sub.add_parser("evaluate", help="score a checkpoint on the held-out splits")
     ev.add_argument("--checkpoint", required=True)
@@ -68,7 +70,7 @@ def main():
         from .training.train import train
         overrides = {f"train.{k}": v for k, v in
                      [("seed", args.seed), ("epochs", args.epochs)] if v is not None}
-        train(args.config, overrides)
+        train(args.config, overrides, resume=args.resume)
     elif args.command == "evaluate":
         from .training.evaluate import evaluate
         evaluate(args.checkpoint, tuple(args.splits), args.root)
