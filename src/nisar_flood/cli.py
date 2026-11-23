@@ -4,6 +4,7 @@
     nisar-flood check    --root data/sen1floods11
     nisar-flood train    --config configs/unet_resnet50.yaml
     nisar-flood evaluate --checkpoint runs/unet_resnet50/seed0/best.pt
+    nisar-flood polarisation-ablation --checkpoint runs/unet_resnet50/seed0/best.pt
     nisar-flood make-chips   --granule data/raw/NISAR_..._001.h5 --granule-id N023_20260618
     nisar-flood label-init   --chips data/chips --out data/labels/annotations
     nisar-flood label-export --chips data/chips --annotations data/labels/annotations
@@ -33,6 +34,16 @@ def main():
     ev.add_argument("--checkpoint", required=True)
     ev.add_argument("--splits", nargs="+", default=["test", "bolivia"])
     ev.add_argument("--root")
+
+    pa = sub.add_parser("polarisation-ablation",
+                        help="VV/VH band-swap ablation on Sentinel-1 test chips (#23)")
+    pa.add_argument("--checkpoint", nargs="+", required=True)
+    pa.add_argument("--splits", nargs="+", default=["test", "bolivia"])
+    pa.add_argument("--root")
+    pa.add_argument("--nisar-iou", type=float,
+                    help="zero-shot NISAR per-chip mean water IoU (RQ1), to report a share of the gap")
+    pa.add_argument("--out", default="reports/polarisation_ablation")
+    pa.add_argument("--n-boot", type=int, default=10000)
 
     mc = sub.add_parser("make-chips", help="granule .h5 -> dB GeoTIFF -> 512x512 chips (#9)")
     mc.add_argument("--granule", required=True, help="NISAR L2 GCOV .h5 product")
@@ -74,6 +85,9 @@ def main():
     elif args.command == "evaluate":
         from .training.evaluate import evaluate
         evaluate(args.checkpoint, tuple(args.splits), args.root)
+    elif args.command == "polarisation-ablation":
+        from .experiments.polarisation_ablation import run
+        run(args.checkpoint, tuple(args.splits), args.root, args.nisar_iou, args.out, args.n_boot)
     elif args.command == "make-chips":
         from .pipeline.make_chips import make_chips
         rows = make_chips(args.granule, args.out, granule_id=args.granule_id,

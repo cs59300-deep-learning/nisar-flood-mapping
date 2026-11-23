@@ -38,3 +38,13 @@ def random_flip_rotate(x, y, rng):
         x, y = np.rot90(x, k, axes=(1, 2)), np.rot90(y, k, axes=(0, 1))
     # The slicing above produces negative strides, which torch.from_numpy rejects.
     return np.ascontiguousarray(x), np.ascontiguousarray(y)
+
+
+def permute_channels(x, order):
+    """Reorder (or repeat) the channel axis of a (C, H, W) or (B, C, H, W) array.
+
+    `order` lists which input channel feeds each output channel, so (1, 0) swaps
+    VV and VH and (0, 0) feeds VV into both slots. Works on numpy arrays and torch
+    tensors alike. Used only at test time, for the polarisation ablation (#23).
+    """
+    return x[..., list(order), :, :]
