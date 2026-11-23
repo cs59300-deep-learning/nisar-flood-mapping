@@ -54,6 +54,7 @@ def make_chips(
     stride: int = 400,
     min_valid_fraction: float = 0.70,
     only: list[str] | list[tuple[int, int]] | None = None,
+    round_db: float | None = None,
 ) -> list[dict[str, str | float]]:
     """Cut chips from a granule and index them in ``manifest.csv``.
 
@@ -73,6 +74,8 @@ def make_chips(
     only:
         Chip positions to write, as ``(row, column)`` pairs or ``"ROW,COL"``
         strings. ``None`` cuts the whole granule.
+    round_db:
+        Round dB values to this step to shrink chips; see ``granule_to_geotiff``.
 
     Returns
     -------
@@ -86,31 +89,34 @@ def make_chips(
     positions = only if only is None or isinstance(only[0], tuple) else parse_positions(only)
     if positions is None:
         return _whole_granule(granule_path, output_dir, granule_id, acquisition_date,
-                              geotiff_path, config)
+                              geotiff_path, config, round_db)
     return _selected(granule_path, output_dir, granule_id, acquisition_date,
-                     positions, config)
+                     positions, config, round_db)
 
 
 def _whole_granule(granule_path, output_dir, granule_id, acquisition_date,
-                   geotiff_path, config):
+                   geotiff_path, config, round_db):
     if geotiff_path is not None:
         return chip_raster(
-            granule_to_geotiff(granule_path, geotiff_path), output_dir,
+            granule_to_geotiff(granule_path, geotiff_path, round_db=round_db), output_dir,
             granule_id=granule_id, acquisition_date=acquisition_date, config=config,
         )
     with tempfile.TemporaryDirectory(prefix="nisar-granule-") as scratch:
-        raster = granule_to_geotiff(granule_path, Path(scratch) / f"{granule_id}.tif")
+        raster = granule_to_geotiff(granule_path, Path(scratch) / f"{granule_id}.tif",
+                                    round_db=round_db)
         return chip_raster(raster, output_dir, granule_id=granule_id,
                            acquisition_date=acquisition_date, config=config)
 
 
-def _selected(granule_path, output_dir, granule_id, acquisition_date, positions, config):
+def _selected(granule_path, output_dir, granule_id, acquisition_date, positions, config,
+              round_db):
     rows: list[dict[str, str | float]] = []
     for row, column in positions:
         chip_id = f"{granule_id}_{row:06d}_{column:06d}"
         chip_path = output_dir / f"{chip_id}.tif"
         granule_to_geotiff(granule_path, chip_path,
-                           window=(row, column, config.size, config.size))
+                           window=(row, column, config.size, config.size),
+                           round_db=round_db)
 
         with rasterio.open(chip_path) as chip:
             fraction = float((chip.dataset_mask() > 0).mean())
