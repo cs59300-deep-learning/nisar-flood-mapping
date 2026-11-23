@@ -9,6 +9,9 @@ sen1floods11/*
 *.tiff
 *.zip
 *.nc
+*.xlsx
+*.qgz
+*.qgs
 
 !.gitkeep
 !README.md
