@@ -11,9 +11,11 @@ import segmentation_models_pytorch as smp
 ENCODERS = {
     "resnet50": "resnet50",                                       # CNN baseline (#19)
     "maxvit_base": "tu-maxvit_base_tf_512",                       # transformer arm (#20), timm default weights
-    "maxvit_base_in21k": "tu-maxvit_base_tf_512.in21k_ft_in1k",   # same encoder, ImageNet-21k pretraining
-}
+    "maxvit_base_in21k": "tu-maxvit_base_tf_512.in21k",   # same encoder, ImageNet-21k pretraining
+    "maxvit_base_in1k": "tu-maxvit_base_tf_512.in1k",     # same encoder, ImageNet-1k pretraining
 
+}
+ 
 
 def build_model(cfg):
     """Return an untrained model described by the `model` block of a config.

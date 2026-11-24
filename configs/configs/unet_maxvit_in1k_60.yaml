@@ -1,0 +1,40 @@
+# Transformer arm: U-Net with a MaxViT-base encoder, trained on Sen1Floods11 (issue #20).
+# Identical to configs/unet_resnet50.yaml except the encoder, the run name, the output
+# directory, and batch_size 4 x accum_steps 2 (effective batch 8) because batch 8 does not
+# fit on a T4. Any further change must be recorded in the report.
+#this follow-up differs from the CNN config in its 60-epoch schedule and gradient accumulation
+
+
+name: unet_maxvit_in1k_60
+
+model:
+  arch: unet
+  encoder: maxvit_base_in1k       # tu-maxvit_base_tf_512, see models/builder.py
+  encoder_weights: true    # null to train from scratch
+  in_channels: 2              # VV, VH
+  classes: 2                  # not water / water
+
+data:
+  root: data/sen1floods11
+  batch_size: 4
+  workers: 2
+  augment: true
+
+train:
+  epochs: 60
+  lr: 0.0003
+  weight_decay: 0.0001
+  dice_weight: 1.0
+  amp: true
+  grad_clip: 1.0
+  scheduler: cosine
+  warmup_epochs: 2
+  seed: 0
+  accum_steps: 2
+
+eval:
+  select_on: iou_water_per_chip_mean
+  split: val
+
+output:
+  dir: runs/unet_maxvit_in1k_60
