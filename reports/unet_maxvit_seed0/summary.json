@@ -1,0 +1,44 @@
+{
+  "name": "unet_maxvit",
+  "seed": 0,
+  "best_epoch": 46,
+  "best_iou_water_per_chip_mean": 0.4518891297981577,
+  "minutes": 125.7,
+  "device": "cuda",
+  "config": {
+    "data": {
+      "augment": true,
+      "batch_size": 4,
+      "root": "data/sen1floods11",
+      "workers": 2
+    },
+    "eval": {
+      "select_on": "iou_water_per_chip_mean",
+      "split": "val"
+    },
+    "model": {
+      "arch": "unet",
+      "classes": 2,
+      "encoder": "maxvit_base",
+      "encoder_weights": "imagenet",
+      "in_channels": 2
+    },
+    "name": "unet_maxvit",
+    "output": {
+      "dir": "/content/drive/MyDrive/nisar_runs/unet_maxvit"
+    },
+    "train": {
+      "accum_steps": 2,
+      "amp": true,
+      "dice_weight": 1.0,
+      "epochs": 100,
+      "grad_clip": 1.0,
+      "lr": 0.0003,
+      "save_every": 10,
+      "scheduler": "cosine",
+      "seed": 0,
+      "warmup_epochs": 2,
+      "weight_decay": 0.0001
+    }
+  }
+}

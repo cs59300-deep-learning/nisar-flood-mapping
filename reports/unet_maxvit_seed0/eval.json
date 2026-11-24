@@ -1,0 +1,26 @@
+{
+  "checkpoint": "/content/drive/MyDrive/nisar_runs/unet_maxvit/seed0/best.pt",
+  "results": {
+    "test": {
+      "iou_water": 0.6897779933825559,
+      "iou_not_water": 0.9523632752029074,
+      "miou": 0.8210706342927316,
+      "iou_water_per_chip_mean": 0.4433928227238882,
+      "n_chips_scored": 85,
+      "precision": 0.8742176781166974,
+      "recall": 0.7657777304946298,
+      "f1": 0.8164125655368197
+    },
+    "bolivia": {
+      "iou_water": 0.7031124102910038,
+      "iou_not_water": 0.9364354675968923,
+      "miou": 0.819773938943948,
+      "iou_water_per_chip_mean": 0.4503229777422353,
+      "n_chips_scored": 15,
+      "precision": 0.8264322652829291,
+      "recall": 0.8249278905343136,
+      "f1": 0.8256793926724613
+    }
+  },
+  "published_test_iou": 0.3125
+}
