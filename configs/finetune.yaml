@@ -1,0 +1,43 @@
+# RQ2 fine-tuning curve: a Sen1Floods11 source model adapted to NISAR chips (issue #24).
+# One of these runs is (arm, n, seed); `experiments/finetune_curve.py` sweeps them.
+
+name: rq2_finetune_resnet50
+
+source:
+  config: configs/unet_resnet50.yaml      # architecture the checkpoint was trained with
+  checkpoint: runs/unet_resnet50/seed0/best.pt
+
+data:
+  chips: data/chips
+  masks: data/labels/masks
+  splits: data/labels/rq2_splits.json     # built by scripts/make_rq2_splits.py
+  batch_size: 4
+  workers: 0                              # 55 small chips; worker startup costs more than it saves
+  augment: true                           # flips and rotations, as in source training
+
+train:
+  # A fixed budget of optimiser steps, not epochs. With epochs, n=35 would take
+  # seven times as many steps as n=5, and the curve would confound "more data"
+  # with "more training". Every point on the curve gets the same number of steps.
+  steps: 300
+  lr: 0.00005                             # an order below the 3e-4 used from scratch
+  weight_decay: 0.0001
+  dice_weight: 1.0
+  grad_clip: 1.0
+  scheduler: cosine
+  warmup_steps: 20
+  amp: true                               # bfloat16 on Ampere+, off on MPS and CPU
+
+eval:
+  metric: iou_water_per_chip_mean         # metrics/iou.py HEADLINE_METRIC
+  # No checkpoint selection. The only labelled NISAR data is the pool and the
+  # test set, and picking the best epoch by test score would report a number
+  # tuned on the chips it claims to generalise to. Each run reports the model as
+  # it stands after the full step budget.
+
+sweep:
+  seeds: [0, 1, 2]
+  sizes: [0, 5, 10, 20, 35]               # 0 is the un-adapted source model
+
+output:
+  dir: runs/rq2_finetune_resnet50         # untracked; results are copied into reports/
