@@ -9,8 +9,9 @@ import segmentation_models_pytorch as smp
 # Encoders with a config in this repo. MaxViT comes from timm, hence the "tu-"
 # prefix segmentation_models_pytorch uses for timm-universal encoders.
 ENCODERS = {
-    "resnet50": "resnet50",                       # CNN baseline (#19)
-    "maxvit_base": "tu-maxvit_base_tf_512",       # transformer arm (#20)
+    "resnet50": "resnet50",                                       # CNN baseline (#19)
+    "maxvit_base": "tu-maxvit_base_tf_512",                       # transformer arm (#20), timm default weights
+    "maxvit_base_in21k": "tu-maxvit_base_tf_512.in21k_ft_in1k",   # same encoder, ImageNet-21k pretraining
 }
 
 
