@@ -164,3 +164,20 @@ def test_positions_are_parsed_and_bad_input_is_reported(tmp_path):
     assert parse_positions(None) is None
     with pytest.raises(ValueError, match="ROW,COL"):
         parse_positions(["8800"])
+
+
+def test_round_db_snaps_values_to_the_step_and_keeps_no_data(tmp_path):
+    rng = np.random.default_rng(3)
+    hh = rng.uniform(0.01, 1.0, (ROWS, COLUMNS)).astype("float32")
+    mask = np.ones((ROWS, COLUMNS), dtype="uint8")
+    mask[0, 0] = 255
+    granule = write_granule(tmp_path / "g.h5", hh=hh, mask=mask)
+
+    raw = granule_to_geotiff(granule, tmp_path / "raw.tif")
+    snapped = granule_to_geotiff(granule, tmp_path / "snapped.tif", round_db=0.5)
+
+    with rasterio.open(raw) as a, rasterio.open(snapped) as b:
+        raw_hh, rounded = a.read(1), b.read(1)
+    assert np.isnan(rounded[0, 0])
+    assert np.allclose(rounded[1:, :] / 0.5, np.round(rounded[1:, :] / 0.5))
+    assert np.abs(rounded[1:, :] - raw_hh[1:, :]).max() <= 0.25 + 1e-6

@@ -43,6 +43,7 @@ def granule_to_geotiff(
     block_rows: int = 1024,
     floor_db: float | None = None,
     window: tuple[int, int, int, int] | None = None,
+    round_db: float | None = None,
 ) -> Path:
     """Convert one GCOV granule to a float32 dB GeoTIFF with a validity mask.
 
@@ -64,6 +65,10 @@ def granule_to_geotiff(
         Converting one chip-sized window reads only that part of the HDF5, which
         is what makes cutting a handful of assigned chips cheap compared with
         converting a full 1.8 GB granule first.
+    round_db:
+        Optional step, in dB, that values are rounded to (e.g. ``1/64``). Float
+        noise does not compress, so this roughly halves chip size. Speckle is
+        several dB wide, so a 1/64 dB step loses no usable signal.
 
     Returns
     -------
@@ -111,6 +116,7 @@ def granule_to_geotiff(
             "driver": "GTiff", "width": columns, "height": rows,
             "count": len(POLARISATIONS), "dtype": "float32", "nodata": float("nan"),
             "crs": f"EPSG:{epsg}", "transform": transform, "compress": "deflate",
+            "predictor": 3,  # float predictor: lossless, ~10% smaller
             "tiled": True, "blockxsize": 512, "blockysize": 512, "BIGTIFF": "IF_SAFER",
         }
 
@@ -140,6 +146,8 @@ def granule_to_geotiff(
                     decibels[positive] *= 10.0
                     if floor_db is not None:
                         np.maximum(decibels, floor_db, out=decibels, where=positive)
+                    if round_db:
+                        decibels = np.round(decibels / round_db) * round_db
                     decibels[~block_mask] = np.nan
                     destination.write(decibels.astype("float32"), index, window=window)
 
