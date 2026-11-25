@@ -1,5 +1,5 @@
 # Paths for large/external datasets.
-# Replace these example paths with locations available in your environment.
+# Replace these example paths with locations available in the local environment.
 # This file documents paths; callers must load and resolve them explicitly.
 
 merit_hand:

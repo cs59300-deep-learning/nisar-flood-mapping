@@ -13,7 +13,7 @@ MERIT Hydro's native pixel is ~92.77 m, so resampling to 20 m interpolates
 rather than adds detail; bilinear matches what the original build used.
 
     earthengine authenticate          # once, opens a browser
-    python scripts/fetch_hand_from_gee.py --project <your-gee-project>
+    python scripts/fetch_hand_from_gee.py --project <gee-project>
     python scripts/score_stage0_gold.py --hand data/reference/hand_chips \
         --out docs/evidence/stage0_vs_gold.json
 """
@@ -59,7 +59,7 @@ def fetch(image: "ee.Image", crs: str, bbox: str) -> bytes:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--project", required=True, help="your Earth Engine cloud project")
+    parser.add_argument("--project", required=True, help="Earth Engine cloud project")
     parser.add_argument("--manifest", type=Path, default=Path("data/chips/manifest.csv"))
     parser.add_argument("--out", type=Path, default=Path("data/reference/hand_chips"))
     args = parser.parse_args()

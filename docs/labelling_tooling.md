@@ -1,6 +1,6 @@
 # Labelling tooling
 
-> For the short, per-polygon version to keep open while you work, see
+> For the short, per-polygon version to keep open while labelling, see
 > [`labelling_checklist.md`](labelling_checklist.md). This document is the
 > full reference for the tool and the file formats.
 
@@ -21,7 +21,7 @@ not an image problem:
 
 - Tier 2 is **HAND + river gauge**, and tier 3 is **JERS-1 and JRC reference
   layers**. Those are georeferenced rasters and vectors that have to sit
-  underneath the chip, at the right place, while you draw. Browser annotators
+  underneath the chip, at the right place, while drawing. Browser annotators
   work on flat PNGs and throw the georeferencing away.
 - Chips are GeoTIFFs with a real CRS and transform. QGIS reads them directly,
   so there is no export-to-PNG step where a half-pixel shift can creep in.
@@ -38,15 +38,15 @@ GeoJSON polygons will work.
 | What | Format | Where |
 |---|---|---|
 | Chip | GeoTIFF, 512x512, from #9 | `data/chips/{chip_id}.tif` |
-| Annotations (what you draw) | GeoJSON polygons | `data/labels/annotations/{chip_id}.geojson` |
+| Annotations (the drawn polygons) | GeoJSON polygons | `data/labels/annotations/{chip_id}.geojson` |
 | Label raster (what the model reads) | GeoTIFF, int16, nodata -1 | `data/labels/masks/{chip_id}_label.tif` |
 | Index of finished labels | CSV | `data/labels/masks/labels_manifest.csv` |
 
 Annotations are GeoJSON rather than GeoPackage for two reasons: it needs no
 vector-reader dependency beyond the GDAL rasterio already bundles, and it is
 plain text, so a label set can live in git and be reviewed in a pull request
-like any other change. If you prefer drawing into a GeoPackage, do that and
-use **Export > Save Features As... > GeoJSON** when you are done.
+like any other change. Drawing into a GeoPackage instead is fine, exporting with
+**Export > Save Features As... > GeoJSON** at the end.
 
 ### Annotation fields
 
@@ -78,14 +78,14 @@ Class values are Sen1Floods11's, plus our excluded value
 
 Four rules decide what ends up in a pixel:
 
-1. **You draw water, excluded and no-data. You do not draw non-water.**
+1. **Water, excluded and no-data are drawn. Non-water is not.**
    Every pixel nobody painted is `0`. This is how Sen1Floods11's own hand
    labels are built, and painting every dry hillside by hand would cost days
    for no extra information.
 2. **Where polygons overlap, the cautious claim wins.** Burn order is water,
-   then excluded, then no-data. If you marked a region water and later decided
+   then excluded, then no-data. If a region was marked water and later decided
    part of it was unreadable, the no-data takes those pixels.
-3. **The chip's own validity mask beats anything you drew.** A pixel outside
+3. **The chip's own validity mask beats any drawn polygon.** A pixel outside
    the swath becomes `-1` even if a water polygon covers it. The export counts
    these as `invalid_overridden_px` rather than discarding them silently, so a
    polygon drawn across a hole in the data shows up instead of hiding.
@@ -118,7 +118,7 @@ values, not the dtype.
    Each file starts with one placeholder polygon that has no class. It is
    there because GDAL works out a layer's geometry type from the features it
    finds, and a completely empty file opens as a typeless layer that QGIS will
-   not let you draw polygons into. The exporter ignores it; delete it or leave
+   not allow polygons to be drawn into. The exporter ignores it; delete it or leave
    it alone.
 
 2. In QGIS, open the chip (`Layer > Add Layer > Add Raster Layer`) and the
@@ -128,7 +128,7 @@ values, not the dtype.
 3. Set the raster stretch once and reuse it, so the same backscatter looks the
    same every session: `Layer Properties > Symbology`, min -40 dB, max 0 dB.
 
-4. Toggle editing on the GeoJSON layer (the pencil icon), draw your polygons,
+4. Toggle editing on the GeoJSON layer (the pencil icon), draw the polygons,
    and fill in `class`, `labeller`, `labelled_on` and `evidence_tier` for
    each. `notes` is optional. Save.
 

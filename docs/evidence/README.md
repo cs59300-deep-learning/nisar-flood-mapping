@@ -7,5 +7,5 @@
 | Visual check against known river channels | `hand_hydrorivers_overlay.png`, `hand_manaus_zoom.png`, `hand_river_check.json`, `hand_validation_notes.md` |
 
 **The aligned raster itself is not in git** (945 MB). It is `hand_aoi.tif` in the Drive folder `nisar_ticket13_hand`.
-Verify you have the same file with the SHA-256 in `hand_provenance.json`
+Verify the file against the SHA-256 in `hand_provenance.json`
 (`dffb657e980e138e...`).

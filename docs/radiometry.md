@@ -73,7 +73,7 @@ Both share `linear_to_db` / `db_to_linear` primitives and the same
 ### The -40 dB physical floor
 
 Nothing below **-40 dB** is real backscatter for these sensors — below that
-you are looking at the noise floor, calibration residue, radar shadow, or
+the value is the noise floor, calibration residue, radar shadow, or
 exact-zero masked pixels. We clamp such values **up to -40 dB** rather than
 leaving them as `-inf` (which `10·log10(0)` would produce) or `nan`. This:
 

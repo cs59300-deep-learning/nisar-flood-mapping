@@ -115,7 +115,7 @@ only to confirm *open* water where canopy is absent.
 
 ## Worked examples
 
-One concrete example per class, so "what would you label this?" has a
+One concrete example per class, so "what does this get labelled?" has a
 reference answer. Each cites the evidence tier that decided it.
 
 ### Water (`1`)

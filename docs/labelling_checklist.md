@@ -1,6 +1,6 @@
 # Labelling checklist
 
-One page, to keep open while you label. The full reasoning is in
+One page, to keep open while labelling. The full reasoning is in
 [`labelling_protocol.md`](labelling_protocol.md); the tooling is in
 [`labelling_tooling.md`](labelling_tooling.md). This is the short version.
 
@@ -8,7 +8,7 @@ One page, to keep open while you label. The full reasoning is in
 
 ## Once per chip, before drawing
 
-Load the **same `.tif` twice**, so you can flip between HH and HV without
+Load the **same `.tif` twice**, so that HH and HV can be flipped between without
 editing symbology every time.
 
 1. Drag the chip in. Properties → Symbology → **Singleband gray**, **Band 1**,
@@ -19,7 +19,7 @@ editing symbology every time.
    black everywhere.)
 3. Drag the matching `.geojson` in. It goes on top.
 
-Your layer list now reads:
+The layer list then reads:
 
 ```
 geojson      <- draw here
@@ -27,11 +27,11 @@ HV           <- tick / untick to compare
 HH
 ```
 
-Ticking and unticking **HV** is how you check both bands. No menus.
+Ticking and unticking **HV** is how both bands get checked. No menus.
 
 - [ ] Three layers loaded in that order
 - [ ] Geojson layer **selected** by name (grey text means nothing will work)
-- [ ] Zoom between **1:25,000 and 1:40,000** — if you can see single pixels, zoom out
+- [ ] Zoom between **1:25,000 and 1:40,000** — if single pixels are visible, zoom out
 - [ ] Editing **on** (pencil icon lit)
 - [ ] Read the gauge figure for this chip's date in the table below
 
@@ -64,7 +64,7 @@ for the 20.51 m bank level.
 
 ---
 
-## When your eyes are not enough: read the numbers
+## When the imagery is not enough: read the numbers
 
 Click **Identify Features** (the blue ⓘ), click the **HH** layer's name, then
 click any pixel on the map. It prints both bands:
@@ -76,7 +76,7 @@ Band 2 (HV gamma0 dB)   -22.9
 
 Compare against the values measured on this granule:
 
-| What you see | HH | HV | HH − HV | What it is |
+| Appearance | HH | HV | HH − HV | What it is |
 |---|---|---|---|---|
 | Very dark in both bands | about −18 | about −22 | ~4 | open water |
 | **Bright — the most common thing in the chip** | about −6 | about −11 | **~5** | forest canopy, dry |
@@ -99,7 +99,7 @@ moves a single pixel by about 1.4 dB on its own.
 
 ## Reading the ground without a terrain layer
 
-Two patterns tell you whether a surface is high ground or floodplain, from the
+Two patterns distinguish high ground from floodplain, from the
 image alone:
 
 - **Branching, tree-like channels** cut into a surface mean water is eroding
@@ -114,7 +114,7 @@ ships alongside the chips.
 
 ---
 
-## For every polygon, before you fill the form
+## For every polygon, before filling the form
 
 Work down the list. Stop at the first line that matches.
 
@@ -131,7 +131,7 @@ Work down the list. Stop at the first line that matches.
 
 ## The four values
 
-| Value | Meaning | Do you draw it? |
+| Value | Meaning | Drawn? |
 |---|---|---|
 | `1` | Open water | Yes |
 | `2` | Suspected flooded vegetation | Yes — flagged, never scored |
@@ -164,7 +164,7 @@ Work down the list. Stop at the first line that matches.
 |---|---|
 | `chip_id` | the chip's name, same as the file |
 | `class` | `1`, `2` or `-1` |
-| `labeller` | your GitHub handle |
+| `labeller` | the labeller's GitHub handle |
 | `labelled_on` | today, `YYYY-MM-DD` |
 | `evidence_tier` | `1` backscatter · `2` ground height + gauge · `3` reference layer |
 | `notes` | optional: a line on why, when the call was a close one |
@@ -190,7 +190,7 @@ nisar-flood label-export --chips data/chips \
     --annotations data/labels/annotations --out data/labels/masks
 ```
 
-If the water percentage is wildly different from what you drew, something went
+If the water percentage is wildly different from the polygons drawn, something went
 wrong — check it before moving on.
 
 ---

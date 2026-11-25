@@ -34,7 +34,7 @@ top-left pixel in the granule, so the name locates it.
 
 `chips/manifest.csv` has one row per chip: `chip_id, source_granule, date, crs,
 bbox, valid_fraction, path`. It also lists the 55 hand-labelled chips, which
-may not all be on your disk.
+may not all be present locally.
 
 **Preprocessing.** Power (gamma0) is converted to dB. Samples that are not
 valid in the product's mask layer, and non-positive power, become no-data. No

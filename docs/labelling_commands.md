@@ -1,6 +1,6 @@
 # Labelling commands
 
-Copy-paste commands for cutting your assigned chips and exporting your labels.
+Commands for cutting an assigned set of chips and exporting the resulting labels.
 Who labels what is in [`../data/labelling_assignments.csv`](../data/labelling_assignments.csv).
 What to do between steps 2 and 3 is in [`labelling_checklist.md`](labelling_checklist.md).
 
@@ -15,7 +15,7 @@ runs step 1 for everybody and sends each member their `data/` folder.
 
 ---
 
-## 1. Cut your chips
+## 1. Cut the assigned chips
 
 ```bash
 GRANULE=data/raw/NISAR_L2_PR_GCOV_023_068_D_090_2005_DHDH_A_20260618T222452_20260618T222527_P05023_N_F_J_001.h5
@@ -75,7 +75,7 @@ no-data and are excluded from scoring; do not draw over them.
 
 ---
 
-## 2. Create your annotation files
+## 2. Create the annotation files
 
 ```bash
 nisar-flood label-init --chips data/chips \
@@ -93,7 +93,7 @@ See [`labelling_checklist.md`](labelling_checklist.md).
 
 ---
 
-## 4. Export your labels to masks
+## 4. Export the labels to masks
 
 ```bash
 nisar-flood label-export --chips data/chips \
@@ -101,7 +101,7 @@ nisar-flood label-export --chips data/chips \
 ```
 
 Prints a water / excluded / no-data pixel count per chip and writes
-`labels_manifest.csv`. If a count looks nothing like what you drew, check it
+`labels_manifest.csv`. If a count looks nothing like the polygons drawn, check it
 before moving on.
 
 ---
